@@ -1,0 +1,8 @@
+# STANDALONE, NOT A WORKSPACE MEMBER. Without this the parent workspace absorbs the fixture: cargo refuses to
+# build it on its own, and the main build would carry a test rig it has no business compiling.
+[workspace]
+
+[package]
+name = "fx-mixed-api"
+version = "0.0.0"
+edition = "2021"

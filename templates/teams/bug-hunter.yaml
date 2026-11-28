@@ -1,0 +1,383 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: bug-hunter
+version: "1.0.0"
+description: "Builds and tests your project, maps its risky spots, hunts security and logic bugs with evidence, writes a failing test for each, runs them, has a QA tester look at the running app in the browser, and writes a ranked bug report. Your code is not changed."
+license: proprietary
+template:
+  ask: "the app's name (a browse target for the browser step, like the recreate team makes); the code is this project"
+  category: coding
+  cost_note: "about $1–4 a run"
+  kind: team
+  lineage:
+    team: draft-bug-hunter
+  needs:
+    - a human step
+    - skill
+    - browse
+  status: draft
+settings:
+  budget_usd: 6.0
+start:
+  - build
+nodes:
+  all:
+    cap_usd: null
+    label: "Hunters, tests and QA"
+    node: join
+    policy: all
+    quorum: null
+    timeout_s: null
+  approve:
+    approval:
+      note: "This is the bug report. The new tests are in the run's copy of the project under tests/; nothing was changed in your code. Approve to keep the report, or decline and say what to look at again."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the report?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  base:
+    allow:
+      effects:
+        - read
+        - exec
+      mcp: []
+      panes: []
+      paths: []
+      skills:
+        - run-tests
+    cap_usd: null
+    label: Run the existing tests
+    node: use_tool
+    outputs:
+      exit: int
+      failed: list
+      tail: string
+    starts_model: false
+    timeout_s: 900
+    tool:
+      args: {}
+      name: run-tests
+      type: skill
+  build:
+    allow:
+      effects:
+        - read
+        - exec
+      mcp: []
+      panes: []
+      paths: []
+      skills:
+        - run-build
+    cap_usd: null
+    label: Build it
+    node: use_tool
+    outputs:
+      exit: int
+      failed: list
+      tail: string
+    starts_model: false
+    timeout_s: 900
+    tool:
+      args: {}
+      name: run-build
+      type: skill
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  found:
+    cap_usd: null
+    label: What the hunters found
+    node: join
+    policy: all
+    quorum: null
+    timeout_s: null
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  lint:
+    allow:
+      effects:
+        - read
+        - exec
+      mcp: []
+      panes: []
+      paths: []
+      skills:
+        - lint
+    cap_usd: null
+    label: Lint it
+    node: use_tool
+    outputs:
+      exit: int
+      failed: list
+      tail: string
+    starts_model: false
+    timeout_s: 900
+    tool:
+      args: {}
+      name: lint
+      type: skill
+  logic:
+    agent:
+      brief: "Take the mapped risky spots and the code behind them. Find real defects of these kinds: wrong conditions and off-by-one, unhandled errors and empty values, races and double submits, state that can go stale, wrong units or time zones, resources never released. For EACH finding: `severity`, `file:line`, the exact quote, the input that triggers it, what goes wrong, the smallest fix. No line, no finding."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Hunt ordinary bugs
+      skills: []
+      title: Logic hunter
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  look:
+    allow:
+      effects:
+        - network
+        - read
+      mcp: []
+      panes: []
+      paths: []
+      skills: []
+    cap_usd: null
+    label: Look at the running app
+    node: use_tool
+    outputs:
+      count: int
+      dir: string
+      shots: list
+    starts_model: false
+    timeout_s: null
+    tool:
+      args:
+        target: "{ask}"
+      name: capture
+      type: browse
+  map:
+    agent:
+      brief: "Read this project's code (start from its README, package or build file and the entry points). Write: what the app does in three lines; then the RISKY SPOTS, at most 12, each as `file:line  what it does  why it is risky` (input validation, auth and tokens, database queries, rendering of user text, file uploads, money, concurrency, error handling). Use only what you read: no spot without a real file and line. The build, tests and lint results are in what the steps before you found; mention anything they say is broken."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Map the code and pin the risky spots
+      skills: []
+      title: Code mapper
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  qa:
+    agent:
+      brief: "You have the browser reading of the app (screenshots and a reading of each page, from the step before) and the results of running the new tests. Report: (1) which tests FAILED (a finding with a failing test is CONFIRMED) and which passed (a finding whose test passes is NOT confirmed); (2) user-visible problems you can see in the pages (broken layout at 390 px, empty states, wrong text, dead buttons, console-looking errors in the text) each with the page and what you saw. Say plainly if the browser step produced nothing. Claim only what the readings and the test output show."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Test the app like a user and check the findings
+      skills: []
+      title: QA tester
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: qa
+    tier: null
+    timeout_s: null
+  qa_in:
+    cap_usd: null
+    label: The test results and the browser
+    node: join
+    policy: all
+    quorum: null
+    timeout_s: null
+  report:
+    cap_usd: null
+    format: md
+    from: triage
+    label: null
+    name: bug-report
+    node: artifact
+    timeout_s: null
+    title: Bug report
+  run:
+    allow:
+      effects:
+        - read
+        - exec
+      mcp: []
+      panes: []
+      paths: []
+      skills:
+        - run-tests
+    cap_usd: null
+    label: Run the new tests
+    node: use_tool
+    outputs:
+      exit: int
+      failed: list
+      tail: string
+    starts_model: false
+    timeout_s: 900
+    tool:
+      args: {}
+      name: run-tests
+      type: skill
+  sec:
+    agent:
+      brief: "Take the mapped risky spots and the code behind them. Find real defects of these kinds: broken auth or weak tokens, injection (SQL, shell, template), cross-site scripting, unsafe file handling, secrets in code, missing validation, unsafe deserialisation. For EACH finding: `severity (high/medium/low)`, `file:line`, the exact quote of the code, how it can be exploited in two lines, and the smallest fix. If you cannot point to the line, it is not a finding: leave it out. Say plainly when you found nothing."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Hunt security bugs like an attacker
+      skills: []
+      title: Security hunter
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  tests:
+    agent:
+      brief: "Take the hunters' findings. For each one that can be shown by a test of this project's own kind (use its existing test framework and folder; follow the style of the tests that are there), write ONE small test that FAILS now because of the bug and would pass once it is fixed. Name each test after the finding. Write only new files under tests/ (never change the app's code or existing tests). Then list the files you wrote and, per finding, `no test` when it cannot be shown by a test, with the reason."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Write a failing test for each finding
+      skills: []
+      title: Test writer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns:
+      - "tests/**"
+    parallel: null
+    readonly: false
+    role: worker
+    tier: null
+    timeout_s: null
+  triage:
+    agent:
+      brief: "You have the hunters' findings, the test run and the QA report. Write the BUG REPORT: first a table of confirmed bugs (a failing test or a visible problem) ranked by severity with file:line and the fix; then the unconfirmed findings, clearly marked as not confirmed; then what the build, existing tests and lint said; then three lines on what to fix first. Drop any finding that has no file and line or no evidence in what you were given. Do not invent a bug. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Write the bug report
+      skills: []
+      title: Triage
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+edges:
+  - from: build
+    port: out
+    to: base
+  - from: base
+    port: out
+    to: lint
+  - from: lint
+    port: out
+    to: map
+  - from: map
+    port: out
+    to: sec
+  - from: map
+    port: out
+    to: logic
+  - from: sec
+    port: out
+    to: found
+  - from: logic
+    port: out
+    to: found
+  - from: found
+    port: out
+    to: tests
+  - from: tests
+    port: out
+    to: run
+  - from: run
+    port: out
+    to: look
+  - from: look
+    port: out
+    to: qa_in
+  - from: run
+    port: out
+    to: qa_in
+  - from: qa_in
+    port: out
+    to: qa
+  - from: sec
+    port: out
+    to: all
+  - from: logic
+    port: out
+    to: all
+  - from: run
+    port: out
+    to: all
+  - from: qa
+    port: out
+    to: all
+  - from: all
+    port: out
+    to: triage
+  - from: triage
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: report
+  - from: report
+    port: out
+    to: deliver
+  - from: look
+    port: failed
+    to: qa_in
+  - from: look
+    port: error
+    to: qa_in
+  - from: look
+    port: timeout
+    to: qa_in
+hash: sha256:40f6520fbe13a89293af20a2edbe686d6f3dd3b4f546723c49b2acf4b0ca0f68

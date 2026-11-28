@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""A SCRIPTED TUI SEAT (RFC 0007, terminal-pane journeys). Stands in for the interactive `claude` TUI: it paints a composer with the marker the serve waits for
+("? for shortcuts"), turns bracketed paste on, takes a pasted prompt and Enter, and for each prompt does what the real CLI plus its hooks leave behind:
+
+  prompts.jsonl   one line at the start of the run     (the hook's UserPromptSubmit)
+  a transcript    ~/.claude/projects/<slug>/<session>.jsonl, assistant lines carrying usage  (the engine's own record)
+  usage.json      the status line's numbers            (antiloki-agent statusline)
+  answers.jsonl   one line at the end of the run       (the hook's Stop)
+
+No model, no network, no quota. Behaviour comes from the prompt's own words:
+  FAKE:slow:<ms>        the run takes that long (default FAKE_TUI_RUN_MS, 1200)
+  FAKE:ask-permission   the run stops at "Do you want to proceed?" and waits for Enter before it finishes
+  FAKE:tokens:<n>       the run reports <n> input tokens (default 42100)
+  FAKE:cost-free        the transcript is left out, so the numbers are a dash
+  TEAMS: when FAKE_TEAM_SCRIPT names a JSON file and the prompt carries a team tag ("[team <run> · step n]"), the seat plays the role its prompt names: the PLANNER answers the scenario's plan, the WORKER writes
+         the scenario's next set of files into its box and says "done", the QA answers the scenario's next verdict (and, when the scenario says "qa_edits", writes a file: a QA that edits; "planner_edits": the planner writes a file). The scenario is the
+         word after "scenario:" in the task. Each run keeps its own count.
+Ctrl+D or /exit leaves. The session id is the one the serve passes with --session-id."""
+import datetime, json, os, re, select, sys, termios, time, tty, uuid
+
+args = sys.argv[1:]
+# A HEADLESS CALL (`claude -p …`: a team node, a planner, a QA) is not the TUI: the one `claude` on the PATH serves both, as the real CLI does, so it hands the call to the scripted headless seat beside it
+if "-p" in args or "--print" in args: os.execv(sys.executable, [sys.executable, os.path.join(os.path.dirname(os.path.realpath(__file__)), "fake-claude")] + args)
+sid = args[args.index("--session-id") + 1] if "--session-id" in args else str(uuid.uuid4())
+if "--resume" in args: sid = args[args.index("--resume") + 1]
+cwd = os.getcwd()
+adir = os.path.join(cwd, ".antiloki"); os.makedirs(adir, exist_ok=True)
+slug = "".join("-" if c in "/\\.:" else c for c in cwd)
+tdir = os.path.join(os.environ.get("HOME", "/tmp"), ".claude", "projects", slug); os.makedirs(tdir, exist_ok=True)
+transcript = os.path.join(tdir, sid + ".jsonl")
+session_cost = 0.0; session_in = 0; session_out = 0; run_no = 0; team_counts = {}
+
+def iso():
+    d = datetime.datetime.now(datetime.timezone.utc)
+    return d.strftime("%Y-%m-%dT%H:%M:%S.") + f"{d.microsecond // 1000:03d}Z"
+def append(path, obj):
+    with open(path, "a") as f: f.write(json.dumps(obj) + "\n")
+def out(s): sys.stdout.write(s); sys.stdout.flush()
+def composer(): out("\r\n\x1b[2m? for shortcuts\x1b[0m\r\n\x1b[1m>\x1b[0m ")
+
+def write_status():
+    with open(os.path.join(adir, "usage.json"), "w") as f:
+        json.dump({"engine": "claude-code", "t": iso(), "model": "Sonnet 5.5", "context": {"used_pct": min(95, 10 + run_no * 7), "input_tokens": session_in, "output_tokens": session_out},
+                   "cost_usd": round(session_cost, 6), "limits": [{"label": "5h", "used_pct": 20 + run_no, "resets_at": None}], "lines_added": 0, "lines_removed": 0}, f)
+
+def team_answer(prompt):
+    path = os.environ.get("FAKE_TEAM_SCRIPT"); tag = re.search(r"\[team (\S+) ", prompt)
+    # THE PERSON TALKING TO A PLANNER: an untagged ask that names a scenario is answered with talk and a plan block, the way a planner told it is one would
+    if path and not tag and not prompt.lstrip().startswith("[team") and re.search(r"scenario:\w+", prompt):
+        sc = re.search(r"scenario:(\w+)", prompt); script = json.load(open(path)).get(sc.group(1))
+        if script and script.get("planner_edits"):
+            with open(os.path.join(cwd, "planner-oops.txt"), "w") as f: f.write("the planner wrote this\n")
+        return ("Here is how I would do it.\n\n```team-plan\n" + script["plan"] + "\n```\nThe team takes it from here.") if script else None
+    if not path or not tag: return None
+    sc = re.search(r"scenario:(\w+)", prompt); script = json.load(open(path)).get(sc.group(1) if sc else "", None)
+    if not script: return None
+    role = "plan" if "You are the PLANNER" in prompt else "work" if "You are the WORKER" in prompt else "verdicts" if "You are the QA" in prompt else None
+    if not role: return None
+    k = (tag.group(1), role); n = team_counts.get(k, 0); team_counts[k] = n + 1
+    if role == "plan":
+        if script.get("planner_edits"):                         # a planner that ignores the rules and changes code
+            with open(os.path.join(cwd, "planner-oops.txt"), "w") as f: f.write("the planner wrote this\n")
+        return script["plan"]
+    if role == "work":
+        for name, content in script["work"][min(n, len(script["work"]) - 1)].items():
+            os.makedirs(os.path.dirname(os.path.join(cwd, name)) or cwd, exist_ok=True)
+            with open(os.path.join(cwd, name), "w") as f: f.write(content)
+        return "done"
+    if script.get("qa_edits"):
+        with open(os.path.join(cwd, "qa-note.txt"), "w") as f: f.write("the QA wrote this\n")
+    return script["verdicts"][min(n, len(script["verdicts"]) - 1)]
+
+def do_run(prompt):
+    global session_cost, session_in, session_out, run_no
+    run_no += 1
+    m = re.search(r"FAKE:slow:(\d+)", prompt); ms = int(m.group(1)) if m else int(os.environ.get("FAKE_TUI_RUN_MS", "1200"))
+    t = re.search(r"FAKE:tokens:(\d+)", prompt); tok_in = int(t.group(1)) if t else 42100
+    tok_out = 3800
+    append(os.path.join(adir, "prompts.jsonl"), {"t": iso(), "prompt": prompt, "session_id": sid, "cost_usd": round(session_cost, 6)})   # the hook records the session cost at the start of a run
+    out(f"\r\n\x1b[36m⏺ working on it…\x1b[0m\r\n")
+    start = time.time(); msg_id = f"msg_{sid[:8]}_{run_no}"
+    if "FAKE:ask-permission" in prompt:
+        out("\r\n Do you want to proceed?\r\n ❯ 1. Yes\r\n   2. No\r\n")
+        while True:   # waits for Enter, like the real dialog
+            r, _, _ = select.select([sys.stdin], [], [], 0.2)
+            if r and "\r" in os.read(0, 64).decode("utf-8", "ignore"): break
+        out("\r\n")
+    remaining = ms / 1000.0 - (time.time() - start)
+    if remaining > 0: time.sleep(remaining)
+    now = iso()
+    if "FAKE:cost-free" not in prompt:
+        append(transcript, {"type": "assistant", "timestamp": now, "sessionId": sid, "message": {"id": msg_id, "model": "claude-sonnet-5-5",
+            "usage": {"input_tokens": 2, "cache_creation_input_tokens": tok_in - 2, "cache_read_input_tokens": 0, "output_tokens": tok_out},
+            "content": [{"type": "text", "text": "done"}, {"type": "tool_use", "id": f"tool_{run_no}_a"}, {"type": "tool_use", "id": f"tool_{run_no}_b"}]}})
+    session_in += tok_in; session_out += tok_out; session_cost += (tok_in * 3.0 + tok_out * 15.0) / 1e6
+    answer = f"ack: {prompt.strip().splitlines()[0][:60]}"
+    answer = team_answer(prompt) or answer
+    append(os.path.join(adir, "answers.jsonl"), {"t": iso(), "session_id": sid, "text": answer})
+    time.sleep(0.05); write_status()   # the real status line ticks just after the Stop hook (300 ms in the first real run)
+    out(f"\r\n{answer}\r\n"); composer()
+
+def main():
+    fd = sys.stdin.fileno(); old = termios.tcgetattr(fd); tty.setraw(fd)
+    try:
+        out("\x1b[?2004h\x1b[2J\x1b[Hfake claude (scripted TUI seat)\r\n"); composer()
+        buf = ""; pasting = False; text = ""
+        while True:
+            data = os.read(fd, 4096).decode("utf-8", "ignore")
+            if not data or "\x04" in data: break
+            i = 0
+            while i < len(data):
+                if data.startswith("\x1b[200~", i): pasting = True; i += 6; continue
+                if data.startswith("\x1b[201~", i): pasting = False; i += 6; continue
+                c = data[i]; i += 1
+                if c == "\r" and not pasting:
+                    prompt = text; text = ""
+                    if prompt.strip() == "/exit": return
+                    if prompt.strip(): do_run(prompt)
+                    else: composer()
+                elif c == "\r" or c == "\n": text += "\n"; out("\r\n")
+                elif c == "\x7f": text = text[:-1]; out("\b \b")
+                elif c >= " ": text += c; out(c)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old); out("\x1b[?2004l\r\n")
+main()

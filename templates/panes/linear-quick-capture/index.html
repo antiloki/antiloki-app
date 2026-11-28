@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Quick capture</title>
+<style>
+  body { padding: 12px 16px; max-width: 560px; }
+  h1 { font-size: 15px; margin: 0 0 10px; }
+  label { display: block; margin: 10px 0 3px; color: var(--c-muted, #888); font-size: 12px; }
+  input, select, textarea { width: 100%; background: transparent; border: 1px solid var(--c-border, #333); border-radius: 8px; padding: 6px 8px; }
+  textarea { min-height: 90px; resize: vertical; }
+  button { margin-top: 12px; background: transparent; border: 1px solid var(--c-border, #333); border-radius: 8px; padding: 6px 14px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  #msg { margin-top: 10px; } .ok { color: var(--c-ok, #4a4); } .bad { color: var(--c-bad, #e55); }
+</style></head>
+<body>
+  <h1>Quick capture</h1>
+  <label for="team">Team</label><select id="team"><option value="">Pick a team…</option></select>
+  <label for="title">Title</label><input id="title" maxlength="200" autocomplete="off">
+  <label for="body">Details (optional)</label><textarea id="body"></textarea>
+  <button id="add" disabled title="Pick a team and write a title first">Add</button>
+  <div id="msg" role="status"></div>
+  <script>
+    (function () {
+      var team = document.getElementById("team"), title = document.getElementById("title"), body = document.getElementById("body"), add = document.getElementById("add"), msg = document.getElementById("msg");
+      function say(t, cls) { msg.textContent = t; msg.className = cls || ""; }
+      function ready() { var ok = team.value && title.value.trim(); add.disabled = !ok; add.title = ok ? "" : "Pick a team and write a title first"; }
+      function describe() {
+        antiloki.describe({ title: "Quick capture", text: msg.textContent || "A form that adds an issue to a Linear team. Adding asks the person first.", controls: [
+          { ref: "team", label: "Team", kind: "choice", value: team.value, options: Array.prototype.map.call(team.options, function (o) { return o.value; }).filter(Boolean) },
+          { ref: "title", label: "Title", kind: "field", value: title.value },
+          { ref: "body", label: "Details", kind: "field", value: body.value },
+          { ref: "add", label: "Add", kind: "button" } ] }).catch(function () {});
+      }
+      function send() {
+        if (add.disabled) return Promise.reject(new Error("pick a team and write a title first"));
+        add.disabled = true; say("Waiting for your OK…");
+        return antiloki.write("linear", "save_issue", { team: team.value, title: title.value.trim(), description: body.value }, "Add “" + title.value.trim() + "”").then(function (r) {
+          say("Added" + (r && r.identifier ? " " + r.identifier : "") + ".", "ok"); title.value = ""; body.value = ""; ready(); describe(); return "added";
+        }, function (e) { say(e.message === "declined" ? "You declined: nothing was added." : e.message, "bad"); ready(); describe(); throw e; });
+      }
+      [team, title, body].forEach(function (el) { el.addEventListener("input", function () { ready(); describe(); }); });
+      add.addEventListener("click", function () { send().catch(function () {}); });
+      // what an agent may do, by meaning: the same functions a person's click uses, so the write still asks the person
+      antiloki.onAct(function (ref, value) {
+        if (ref === "team") { team.value = value; } else if (ref === "title") { title.value = value; } else if (ref === "body") { body.value = value; } else if (ref === "add") { return send(); } else { throw new Error("no control " + ref); }
+        ready(); describe(); return "set " + ref;
+      });
+      antiloki.read("linear", "list_teams", {}).then(function (r) {
+        (r.teams || []).forEach(function (t) { var o = document.createElement("option"); o.value = t.id || t.name; o.textContent = t.name || t.id; team.appendChild(o); }); describe();
+      }, function (e) { say(e.message, "bad"); describe(); });
+      describe();
+    })();
+  </script>
+</body>
+</html>

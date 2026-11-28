@@ -1,0 +1,105 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: sales-crm
+version: "1.0.0"
+description: "Takes your pipeline pasted as text, picks the next action for each open deal, drafts the follow-ups and stops for your approval. Nothing is sent or changed."
+license: proprietary
+template:
+  ask: "your open deals, one per line (name, stage, value, last contact, notes), and a focus if you have one"
+  category: sales
+  cost_note: "measured: about 1 cent"
+  kind: team
+  lineage:
+    team: draft-sales-crm
+  needs:
+    - a human step
+  proven_by_run: draft-sales-crm-234487828
+  status: verified
+settings:
+  budget_usd: 3.0
+start:
+  - next
+nodes:
+  approve:
+    approval:
+      note: "These are the next actions and the drafts. Approve to finish, or decline and say what to change. Nothing is sent and your pipeline is not changed by this team."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the plan?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  draft:
+    agent:
+      brief: "From the analyst's plan and the pipeline in the ask, write the message for every deal whose next action is an email or a message: under 100 words, one specific reference to that deal's notes, one clear ask. Use only what the pipeline says. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Draft the follow-up for each deal whose next action is a message
+      skills: []
+      title: Follow-up writer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  next:
+    agent:
+      brief: "The team's ask is the person's pipeline, pasted as text: one deal per line or row, with whatever columns they keep (name, stage, value, last contact, notes), and perhaps a focus ('deals gone quiet'). For each OPEN deal write: the deal, where it stands in one line (from the row only), the single next action (call, email, wait, close it), and when it should happen (today, this week, next week). Sort by value times closeness to closing; if a focus was given, put those first. Deals marked closed or lost are listed at the end as closed, without an action. Never invent a fact the row does not hold; say 'not in the pipeline'. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Choose the next action for each open deal
+      skills: []
+      title: Sales analyst
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  plan:
+    cap_usd: null
+    format: md
+    from: draft
+    label: null
+    name: sales-plan
+    node: artifact
+    timeout_s: null
+    title: Sales plan
+edges:
+  - from: next
+    port: out
+    to: draft
+  - from: draft
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: plan
+  - from: plan
+    port: out
+    to: deliver
+hash: sha256:aaf6924c6287412c1dda9b54b3d4b0e231b49b2f7fc0386cc91a9aef18d8527f

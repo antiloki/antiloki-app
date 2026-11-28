@@ -1,0 +1,13 @@
+# STANDALONE, NOT A WORKSPACE MEMBER. Without this the parent workspace absorbs the fixture: cargo refuses to
+# build it on its own, and the main build would carry a test rig it has no business compiling.
+[workspace]
+
+[package]
+name = "fx-rust"
+version = "0.0.0"
+edition = "2021"
+
+# THE PROJECT SAYING IT LINTS is what turns clippy from a guess into a gate: gate_cmd offers clippy only where
+# a repo declares it, because a gate that fails for a missing tool reads as the code being wrong.
+[lints.clippy]
+all = "warn"

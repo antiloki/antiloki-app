@@ -1,0 +1,13 @@
+[project]
+name = "fx-python"
+version = "0.0.0"
+
+# pytest and ruff DECLARED, which is what gate_cmd looks for — it never assumes a Python project has either
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["fx"]
+
+[tool.ruff]
+line-length = 110

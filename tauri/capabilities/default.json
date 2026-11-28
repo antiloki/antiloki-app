@@ -1,0 +1,17 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "the operator window: shell commands, the updater, relaunch, and opening the checkout in the system browser",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "updater:default",
+    "process:default",
+    "opener:default",
+    "dialog:allow-open",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [{ "url": "https://antiloki.dev/*" }, { "url": "https://github.com/acme/*" }]
+    }
+  ]
+}

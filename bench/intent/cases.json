@@ -1,0 +1,897 @@
+[
+{
+"t": "add filters",
+"x": "none",
+"k": "task"
+},
+{
+"t": "fix login",
+"x": "none",
+"k": "task"
+},
+{
+"t": "add a dark mode toggle",
+"x": "none",
+"k": "task"
+},
+{
+"t": "rename foo to bar",
+"x": "none",
+"k": "task"
+},
+{
+"t": "remove the footer",
+"x": "none",
+"k": "task"
+},
+{
+"t": "make the header sticky",
+"x": "none",
+"k": "task"
+},
+{
+"t": "delete the unused helpers",
+"x": "none",
+"k": "task"
+},
+{
+"t": "refactor the cart hook",
+"x": "none",
+"k": "task"
+},
+{
+"t": "write tests for formatMoney",
+"x": "none",
+"k": "task"
+},
+{
+"t": "update the readme",
+"x": "none",
+"k": "task"
+},
+{
+"t": "implement product search",
+"x": "none",
+"k": "task"
+},
+{
+"t": "migrate the store to zustand",
+"x": "none",
+"k": "task"
+},
+{
+"t": "optimize the product grid rendering",
+"x": "none",
+"k": "task"
+},
+{
+"t": "split App.tsx into smaller components",
+"x": "none",
+"k": "task"
+},
+{
+"t": "add a sort dropdown for the products",
+"x": "none",
+"k": "task"
+},
+{
+"t": "install eslint and fix what it finds",
+"x": "none",
+"k": "task"
+},
+{
+"t": "convert products.ts to a json file",
+"x": "none",
+"k": "task"
+},
+{
+"t": "style the cart drawer to match the nav",
+"x": "none",
+"k": "task"
+},
+{
+"t": "can you add a footer?",
+"x": "none",
+"k": "task"
+},
+{
+"t": "could you rename the Product type to Item",
+"x": "none",
+"k": "task"
+},
+{
+"t": "please fix the rounding bug in checkout",
+"x": "none",
+"k": "task"
+},
+{
+"t": "let's add pagination to the product list",
+"x": "none",
+"k": "task"
+},
+{
+"t": "I want to add a wishlist page",
+"x": "none",
+"k": "task"
+},
+{
+"t": "we should remove the legacy api client",
+"x": "none",
+"k": "task"
+},
+{
+"t": "Add a Header component in src/components/Header.tsx that shows the shop name and a nav with Home and Cart links, styled like the Footer",
+"x": "none",
+"k": "task"
+},
+{
+"t": "In src/products.ts add a fourth product named Teapot with price 12",
+"x": "none",
+"k": "task"
+},
+{
+"t": "Fix the off-by-one in the pagination so the last page is reachable and add a test that proves it",
+"x": "none",
+"k": "task"
+},
+{
+"t": "where is the cart state kept?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "why does checkout round twice",
+"x": "none",
+"k": "question"
+},
+{
+"t": "how does the router pick a role?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "what does formatMoney do",
+"x": "none",
+"k": "question"
+},
+{
+"t": "explain the Product type",
+"x": "none",
+"k": "question"
+},
+{
+"t": "list the components in src",
+"x": "none",
+"k": "question"
+},
+{
+"t": "which files import products.ts?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "who calls useCart",
+"x": "none",
+"k": "question"
+},
+{
+"t": "when is the theme saved to localStorage?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "tell me how the filters work",
+"x": "none",
+"k": "question"
+},
+{
+"t": "show me where prices are formatted",
+"x": "none",
+"k": "question"
+},
+{
+"t": "walk me through the checkout flow",
+"x": "none",
+"k": "question"
+},
+{
+"t": "summarize what changed in the last run",
+"x": "none",
+"k": "question"
+},
+{
+"t": "is there a test for the cart?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "does the grid handle an empty list?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "what is the difference between the two price helpers?",
+"x": "none",
+"k": "question"
+},
+{
+"t": "how many products are there",
+"x": "none",
+"k": "question"
+},
+{
+"t": "what do you suggest?",
+"x": "none",
+"k": "task"
+},
+{
+"t": "any ideas for the store?",
+"x": "none",
+"k": "task"
+},
+{
+"t": "what should I do next",
+"x": "none",
+"k": "task"
+},
+{
+"t": "go",
+"x": "run",
+"k": "task"
+},
+{
+"t": "do the first one",
+"x": "run",
+"k": "task"
+},
+{
+"t": "implement that",
+"x": "run",
+"k": "task"
+},
+{
+"t": "and the filtering?",
+"x": "run",
+"k": "task"
+},
+{
+"t": "yes do it",
+"x": "run",
+"k": "task"
+},
+{
+"t": "ok go with the cart",
+"x": "run",
+"k": "task"
+},
+{
+"t": "do the second suggestion",
+"x": "run",
+"k": "task"
+},
+{
+"t": "apply those changes",
+"x": "run",
+"k": "task"
+},
+{
+"t": "go ahead",
+"x": "proposal",
+"k": "task"
+},
+{
+"t": "go",
+"x": "proposal",
+"k": "task"
+},
+{
+"t": "yes",
+"x": "proposal",
+"k": "task"
+},
+{
+"t": "sure, run it",
+"x": "proposal",
+"k": "task"
+},
+{
+"t": "what about the header?",
+"x": "run",
+"k": "question"
+},
+{
+"t": "why did that fail?",
+"x": "run",
+"k": "question"
+},
+{
+"t": "what did it change?",
+"x": "run",
+"k": "question"
+},
+{
+"t": "go",
+"x": "approval",
+"k": "approve"
+},
+{
+"t": "yes",
+"x": "approval",
+"k": "approve"
+},
+{
+"t": "approve",
+"x": "approval",
+"k": "approve"
+},
+{
+"t": "looks good",
+"x": "approval",
+"k": "approve"
+},
+{
+"t": "run it",
+"x": "approval",
+"k": "approve"
+},
+{
+"t": "cancel",
+"x": "approval",
+"k": "cancel"
+},
+{
+"t": "no",
+"x": "approval",
+"k": "cancel"
+},
+{
+"t": "never mind",
+"x": "approval",
+"k": "cancel"
+},
+{
+"t": "stop",
+"x": "approval",
+"k": "cancel"
+},
+{
+"t": "go",
+"x": "answers",
+"k": "answer"
+},
+{
+"t": "yes",
+"x": "answers",
+"k": "answer"
+},
+{
+"t": "take the defaults",
+"x": "answers",
+"k": "answer"
+},
+{
+"t": "cancel",
+"x": "answers",
+"k": "cancel"
+},
+{
+"t": "forget it",
+"x": "answers",
+"k": "cancel"
+},
+{
+"t": "Main App component",
+"x": "answers",
+"k": "answer",
+"note": "a chip's text"
+},
+{
+"t": "how's it going?",
+"x": "running",
+"k": "status"
+},
+{
+"t": "is it done?",
+"x": "running",
+"k": "status"
+},
+{
+"t": "what's the status of the run",
+"x": "running",
+"k": "status"
+},
+{
+"t": "any progress?",
+"x": "running",
+"k": "status"
+},
+{
+"t": "still working?",
+"x": "running",
+"k": "status"
+},
+{
+"t": "thanks",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "hello",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "hi there",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "ok cool",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "nice work",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "thank you so much",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "great, thanks",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "good morning",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "lol",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "got it",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "perfect",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "who are you?",
+"x": "none",
+"k": "chat"
+},
+{
+"t": "filters",
+"x": "none",
+"k": "chat",
+"hard": true,
+"note": "one word, no verb"
+},
+{
+"t": "the cart",
+"x": "none",
+"k": "chat",
+"hard": true
+},
+{
+"t": "make it better",
+"x": "none",
+"k": "task",
+"hard": true
+},
+{
+"t": "add tests for it",
+"x": "run",
+"k": "task",
+"hard": true
+},
+{
+"t": "why not use redux?",
+"x": "none",
+"k": "question",
+"hard": true
+},
+{
+"t": "is it possible to sort by price?",
+"x": "none",
+"k": "question",
+"hard": true
+},
+{
+"t": "can we make the grid responsive",
+"x": "none",
+"k": "task",
+"hard": true
+},
+{
+"t": "the button is broken",
+"x": "none",
+"k": "task",
+"hard": true,
+"note": "a symptom is a bug report"
+},
+{
+"t": "it crashes on submit",
+"x": "none",
+"k": "task",
+"hard": true
+},
+{
+"t": "tests are failing",
+"x": "none",
+"k": "task",
+"hard": true
+},
+{
+"t": "I think the prices look wrong",
+"x": "none",
+"k": "task",
+"hard": true
+},
+{
+"t": "remind me what we decided about euros",
+"x": "none",
+"k": "question",
+"hard": true
+},
+{
+"t": "what if we used a modal instead?",
+"x": "none",
+"k": "question",
+"hard": true
+},
+{
+"t": "looks good",
+"x": "none",
+"k": "chat",
+"hard": true,
+"note": "nothing pending: an acknowledgement"
+},
+{
+"t": "nope",
+"x": "none",
+"k": "chat",
+"hard": true,
+"note": "nothing pending"
+},
+{
+"t": "hmm",
+"x": "none",
+"k": "chat",
+"hard": true
+},
+{
+"t": "adicione filtros por tag",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "corrija o bug do login",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "você pode deixar o cabeçalho fixo?",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "renomeie foo para bar",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "remova o rodapé",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "crie uma página de busca",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "onde fica o estado do carrinho?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "por que o frete está errado",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "como funciona o cálculo do total",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "quais arquivos usam o formatPrice?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "obrigado!",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "valeu",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "bom dia",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "oi",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "como está indo?",
+"x": "running",
+"k": "status",
+"lang": true
+},
+{
+"t": "já terminou?",
+"x": "running",
+"k": "status",
+"lang": true
+},
+{
+"t": "pode ir",
+"x": "approval",
+"k": "approve",
+"lang": true
+},
+{
+"t": "cancela",
+"x": "approval",
+"k": "cancel",
+"lang": true
+},
+{
+"t": "👍",
+"x": "approval",
+"k": "approve",
+"lang": true
+},
+{
+"t": "não",
+"x": "approval",
+"k": "cancel",
+"lang": true
+},
+{
+"t": "añade un filtro por precio",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "arregla el login",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "crea una página de búsqueda",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "¿dónde se guarda el carrito?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "por qué falla el envío",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "cómo funciona el total",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "gracias",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "hola",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "adelante",
+"x": "approval",
+"k": "approve",
+"lang": true
+},
+{
+"t": "cancela",
+"x": "approval",
+"k": "cancel",
+"lang": true
+},
+{
+"t": "ajoute un pied de page",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "corrige la connexion",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "supprime les helpers inutilisés",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "où est l'état du panier ?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "pourquoi le total est faux",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "comment marche la recherche",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "merci",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "vas-y",
+"x": "approval",
+"k": "approve",
+"lang": true
+},
+{
+"t": "annule",
+"x": "approval",
+"k": "cancel",
+"lang": true
+},
+{
+"t": "füge einen Footer hinzu",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "behebe den Login-Fehler",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "aggiungi un filtro per prezzo",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "correggi il login",
+"x": "none",
+"k": "task",
+"lang": true
+},
+{
+"t": "wo liegt der Warenkorb?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "warum ist die Summe falsch",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "dove sta il carrello?",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "perché il totale è sbagliato",
+"x": "none",
+"k": "question",
+"lang": true
+},
+{
+"t": "danke",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "grazie",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "mach das",
+"x": "approval",
+"k": "approve",
+"lang": true
+},
+{
+"t": "annulla",
+"x": "approval",
+"k": "cancel",
+"lang": true
+},
+{
+"t": "👍",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "🙂",
+"x": "none",
+"k": "chat",
+"lang": true
+},
+{
+"t": "???",
+"x": "none",
+"k": "chat",
+"lang": true
+}
+]

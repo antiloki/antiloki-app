@@ -1,0 +1,68 @@
+[package]
+name = "antiloki-serve"
+version = "1.0.0"
+edition = "2021"
+description = "W1 of the Tauri cutover: the axum HTTP surface that replaces antiloki-BE. Same paths, same status codes, same error envelopes — dispatching straight into the engine crate instead of across a napi boundary."
+
+[lib]
+name = "antiloki_serve"
+path = "src/lib.rs"
+
+[[bin]]
+name = "antiloki-looks"
+path = "src/bin/antiloki-looks.rs"
+
+[[bin]]
+name = "antiloki-serve"
+path = "src/main.rs"
+
+[dependencies]
+# The engine, linked directly. No napi, no Node: this is the whole point of the cutover.
+antiloki-core-rust = { path = ".." }
+axum = { version = "0.8", features = ["multipart"] }
+# `process` + `io-util`: the headless CLI runner (cli.rs) spawns claude/codex/opencode with tokio
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "sync", "time", "process", "io-util"] }
+# BroadcastStream/IntervalStream for the SSE hub — the Rust equivalent of the rxjs
+# Subject + interval the Nest controller merges.
+tokio-stream = { version = "0.1", features = ["sync"] }
+tower-http = { version = "0.6", features = ["cors"] }
+# preserve_order is REQUIRED for parity, not a preference: the BE's JSON.stringify emits keys in
+# insertion order, and the FE reads some responses positionally. Without it serde would sort keys
+# and every response body would differ from the golden capture.
+serde_json = { version = "1", features = ["preserve_order"] }
+# visual QA (qa_evidence.rs): the machine's own Chrome over CDP, the same client the core's design capture uses
+headless_chrome = { version = "1.0", default-features = false }
+# derive only, for the generated input templates in routes.rs
+serde = { version = "1", features = ["derive"] }
+rusqlite = { version = "0.31", features = ["bundled"] }
+# The error-code recovery patterns ported verbatim from engine.service.ts toAntilokiError().
+regex = "1"
+# node-pty's Rust counterpart: the same ConPTY/openpty mechanism, no Node addon. Backs the
+# cockpit terminal panes (start/input/resize/kill/status).
+portable-pty = "0.9"
+vt100 = "0.18"
+# The per-pane AI proxy streams an upstream SSE body through to the pane, so it needs an ASYNC
+# client; ureq (in the engine crate) is blocking. Already in the workspace lock via fastembed.
+reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
+futures-util = "0.3"
+# small blocking calls off the runtime; ureq is already in the workspace via the engine crate
+ureq = { version = "2", default-features = false, features = ["json", "tls", "native-certs"] }
+sha2 = "0.10"
+toml = "0.8"
+yaml-rust2 = "0.13"
+hex = "0.4"
+rand = "0.8"
+base64 = "0.22"
+url = "2"
+rhai = { version = "1.22", features = ["serde", "no_time"] }
+
+[dev-dependencies]
+# `oneshot` drives the Router directly — no port, no listener, no race, no BE.
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"
+
+# RFC 0007 M1: the sidecar terminal host (`antiloki-agent pty-host`); with ANTILOKI_PTY_HOST=sidecar the panes' terminals belong to it
+# and survive a serve restart. Unix only for now; the Windows transport is M7.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+antiloki-ptyhost = { path = "../ptyhost" }

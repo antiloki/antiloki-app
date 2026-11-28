@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bad-spacing-type-colour (fixture: no scale, no palette)</title>
+<!-- KNOWN BAD (bench/design/fixtures/EXPECT.json): nine font sizes (11 12 13 14 15 16 17 19 22) and six weights, margins and paddings
+     that fall on no grid (3 5 6 7 9 11 13 19 23 27), seventeen unrelated colours. Everything else is deliberately fine
+     (contrast above 4.5, no clipping, 40px controls, styled controls) so only the three intended checks fail. -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.4;color:#1a1a1a;background:#ffffff;padding:13px 27px}
+.top{display:flex;align-items:center;gap:11px;padding:7px 19px 9px 5px;background:#fde68a;color:#7c2d12;font-size:22px;font-weight:800}
+.top a{display:block;min-height:40px;padding:11px 13px 9px 17px;font-size:12px;font-weight:300;color:#831843;text-decoration:underline}
+h1{margin:23px 0 6px 3px;font-size:19px;font-weight:700;color:#14532d}
+.sub{margin:0 0 27px 9px;font-size:15px;font-weight:500;color:#1e3a8a}
+.row{display:flex;gap:13px;flex-wrap:wrap}
+.c{padding:19px 7px 11px 23px;margin:5px 9px 13px 0;width:208px;font-size:13px}
+.c b{display:block;margin-bottom:6px;font-size:17px;font-weight:600}
+.c i{display:block;margin-top:3px;font-size:11px;font-weight:400}
+.c1{background:#fde68a;color:#7c2d12}.c2{background:#fbcfe8;color:#831843}.c3{background:#bbf7d0;color:#14532d}
+.c4{background:#bfdbfe;color:#1e3a8a}.c5{background:#ddd6fe;color:#4c1d95}.c6{background:#fed7aa;color:#7c2d12}
+.c7{background:#99f6e4;color:#134e4a}.c8{background:#fecaca;color:#7f1d1d}.c9{background:#e9d5ff;color:#581c87}.c10{background:#a5f3fc;color:#164e63}
+.note{margin:21px 0 0 11px;font-size:16px;font-weight:400;color:#1a1a1a}
+.go{min-height:40px;margin:17px 0 0 5px;padding:11px 29px 9px 21px;font-family:inherit;font-size:14px;font-weight:600;color:#ffffff;background:#be123c;border:0;border-radius:3px;cursor:pointer}
+.go:hover{background:#9f1239}
+.go:focus-visible{outline:2px solid #be123c;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="top">ministore <a href="#a">Shop</a><a href="#b">About</a><a href="#c">Cart</a></div>
+<h1>Fewer things, made well</h1>
+<p class="sub">Ten objects for a quiet home</p>
+<div class="row">
+  <div class="c c1"><b>Stone mug</b>Hand thrown<i>$18</i></div>
+  <div class="c c2"><b>Paper lamp</b>Warm light<i>$64</i></div>
+  <div class="c c3"><b>Oak chair</b>Solid oak<i>$240</i></div>
+  <div class="c c4"><b>Wool throw</b>Soft wool<i>$96</i></div>
+  <div class="c c5"><b>Clay vase</b>Hand built<i>$32</i></div>
+  <div class="c c6"><b>Wall clock</b>Silent<i>$58</i></div>
+  <div class="c c7"><b>Linen cloth</b>Washed<i>$22</i></div>
+  <div class="c c8"><b>Tea set</b>Four cups<i>$74</i></div>
+  <div class="c c9"><b>Candle</b>Beeswax<i>$14</i></div>
+  <div class="c c10"><b>Tray</b>Walnut<i>$41</i></div>
+</div>
+<p class="note">Free shipping over $100</p>
+<button class="go" type="button">Buy something</button>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "fx-node-api",
+  "private": true,
+  "scripts": { "build": "node --check src/total.js", "test": "node --test" },
+  "dependencies": { "express": "^4.19.0" }
+}

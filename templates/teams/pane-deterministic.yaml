@@ -1,0 +1,96 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: pane-deterministic
+version: "1.0.0"
+description: "Finds the right zero-AI X-ray data source for what you want to see, picks how to draw it, previews it, stops for your approval and saves it as a widget on your X-ray board. No code is written."
+license: proprietary
+template:
+  ask: "what you want to see (for example: the files that changed most this month)"
+  category: other
+  cost_note: "about $0.10–0.40 a run"
+  kind: team
+  lineage:
+    team: draft-pane-deterministic
+  needs:
+    - a human step
+  status: draft
+settings:
+  budget_usd: 2.0
+start:
+  - design
+nodes:
+  approve:
+    approval:
+      note: "This is the declaration and what its preview drew. Approve to save it to your X-ray board, or decline and say what to change. A declaration is data: it contains no code."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the widget?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  design:
+    agent:
+      brief: "The team's ask says what the person wants to see. 1) Call antiloki_xray_widgets with op `sources` to read the zero-AI sources (never choose a source that costs an AI call). 2) Pick the one source that answers the ask and one renderer (text, list, number, table, bar, line, timeline, treemap, graph, diff, media). 3) Call antiloki_xray_preview with the widget declaration {id, title, source, args?, view, options?} and read what it draws; fix the declaration until it shows what was asked. Report the final declaration as JSON and what the preview showed."
+      context: []
+      effects: []
+      mcp:
+        - antiloki_xray_widgets
+        - antiloki_xray_preview
+      responsibility: Find the data and pick how to draw it
+      skills: []
+      title: Widget designer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  save:
+    agent:
+      brief: "Save the approved declaration exactly as given with antiloki_xray_widget_save {op: save, widget}. If the serve refuses it, report the reason in its words and change nothing else. Then call antiloki_xray_widgets to confirm the widget is listed, and say where the person will see it."
+      context: []
+      effects: []
+      mcp:
+        - antiloki_xray_widget_save
+        - antiloki_xray_widgets
+      responsibility: Save the approved widget
+      skills: []
+      title: Widget saver
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+edges:
+  - from: design
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: save
+  - from: save
+    port: out
+    to: deliver
+hash: sha256:3e6785f0720926d712b30f907ec82e48c2aaf1208239870151e328b0db6a9d4e

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bad-misaligned-clipped (fixture: ragged columns, clipped text, tiny stateless targets)</title>
+<!-- KNOWN BAD: three columns start at 0 / 14 / 6 px with different heights, a stacked list whose left edges are 0 / 7 / 13 / 3,
+     two boxes that clip their text (fixed height with overflow hidden; nowrap with overflow hidden and no ellipsis), 20px
+     tap targets, and no hover or focus style on any control (outline removed). Colours are few and dark on white, controls
+     are styled flat, so contrast and defaults must still pass. -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:#111111;background:#ffffff;padding:32px}
+a,button{outline:none}
+h1{margin-bottom:16px;font-size:24px;line-height:32px;font-weight:600}
+.cols{display:flex;align-items:flex-start;gap:16px;margin-bottom:32px}
+.col{width:200px;padding:16px;background:#f3f4f6;border:1px solid #9ca3af}
+.col1{margin-top:0;height:140px}
+.col2{margin-top:14px;height:120px}
+.col3{margin-top:6px;height:180px}
+.list{margin-bottom:32px}
+.list div{padding:8px 0}
+.i1{margin-left:0}.i2{margin-left:7px}.i3{margin-left:13px}.i4{margin-left:3px}
+.clip{width:320px;height:48px;overflow:hidden;margin-bottom:16px;padding:0;border:1px solid #9ca3af}
+.nowrap{width:160px;overflow:hidden;white-space:nowrap;margin-bottom:32px;border:1px solid #9ca3af}
+.tools{display:flex;gap:16px}
+.ico{display:inline-block;width:20px;height:20px;font-size:12px;line-height:20px;text-align:center;color:#111111;text-decoration:none;background:#e5e7eb}
+.flat{height:20px;padding:0 8px;font-family:inherit;font-size:12px;line-height:20px;color:#111111;background:#e5e7eb;border:0;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>Dashboard</h1>
+<div class="cols">
+  <div class="col col1">Revenue this week is up on last week.</div>
+  <div class="col col2">Orders are steady.</div>
+  <div class="col col3">Returns are down, and the three open tickets are all about delivery times.</div>
+</div>
+<div class="list">
+  <div class="i1">First item in the list</div>
+  <div class="i2">Second item in the list</div>
+  <div class="i3">Third item in the list</div>
+  <div class="i4">Fourth item in the list</div>
+</div>
+<div class="clip">This paragraph is far longer than the box it sits in. The box has a fixed height and hides whatever does not fit, so the last lines of this sentence are cut off and nobody can read them.</div>
+<div class="nowrap">A single very long order reference number that will never fit</div>
+<div class="tools"><a class="ico" href="#a">x</a><a class="ico" href="#b">e</a><a class="ico" href="#c">+</a><button class="flat" type="button">Save</button><button class="flat" type="button">Undo</button></div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+[package]
+name = "antiloki-desktop"
+version = "1.0.0"
+edition = "2021"
+description = "W6 of the cutover: the desktop shell. Tauri window + the axum server + the engine, all in ONE executable — no node.exe, no sidecar, no napi addon."
+
+# NOT "antiloki": the engine crate already declares a dev bin by that name, and two bins with the
+# same name in one workspace write to the SAME target path — the core bin silently won and this
+# shell was never produced. The SHIPPED app is still called antiloki; that name comes from
+# `productName` in tauri.conf.json, not from the cargo bin.
+[[bin]]
+name = "antiloki-desktop"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# The whole backend, LINKED not spawned. This is what makes the artifact a single binary:
+# antiloki-serve pulls in antiloki-core-rust, so the engine ships inside this executable.
+antiloki-serve = { path = "../serve" }
+# `unstable`: a child webview inside the main window (the Browser pane: a real browser tab over the pane, which a page in an iframe can never be)
+tauri = { version = "2", features = ["tray-icon", "unstable"] }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+# UPDATES (operator 2026-09-17: "ready to receive updates and patches from time to time"): the
+# signed-manifest updater — a static `latest.json` + installers on GitHub Releases, no server of
+# ours. `process` relaunches after install; `opener` sends the checkout to the system browser.
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

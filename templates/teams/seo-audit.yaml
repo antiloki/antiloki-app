@@ -1,0 +1,144 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: seo-audit
+version: "1.0.0"
+description: "Reads one public page and writes an SEO audit with the exact fixes. You give it the page's address."
+license: proprietary
+template:
+  ask: "the page's address, like https://example.com/pricing"
+  category: seo
+  cost_note: "measured: about 1.3 cents of API-equivalent on the default seat"
+  kind: team
+  lineage:
+    team: draft-seo-audit
+  needs:
+    - web
+  proven_by_run: draft-seo-audit-234349209
+  status: verified
+settings:
+  budget_usd: 3.0
+start:
+  - fetch
+nodes:
+  audit:
+    agent:
+      brief: "The page was fetched by the step before you (its title and text are in what the nodes before you found). Do not fetch, browse or search anything yourself: work only from that text, and if it is empty or unreadable say so and stop. Judge ONLY what the text shows: the title and its length, whether there is exactly one main heading and whether the headings follow an order, whether the first paragraph says what the page is for, the words the page repeats, links with no words (\"click here\"), images the text mentions without alt text, a missing description, thin text (under about 300 words). For each finding give: what, where (quote a few words), why it matters, and how sure you are (sure / likely / guess). Never invent a measurement (speed, backlinks, rank): say that this audit cannot see it. Write a numbered list, most important first, at most 12 findings. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Find what holds the page back in search
+      skills: []
+      title: SEO auditor
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  both:
+    cap_usd: null
+    label: The page and the findings
+    node: join
+    policy: all
+    quorum: null
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  fetch:
+    allow:
+      effects:
+        - network
+      mcp: []
+      panes: []
+      paths: []
+      skills: []
+    cap_usd: null
+    label: Read the page
+    node: use_tool
+    outputs:
+      text: string
+      title: string
+    starts_model: false
+    timeout_s: null
+    tool:
+      args:
+        url: "{ask}"
+      name: fetch
+      type: web
+  fix:
+    agent:
+      brief: "From the findings, write the actual replacement text for each fix that is text (the new title, the description, a rewritten first paragraph, heading changes). Keep the page's own voice and facts: add no claim the page does not already make. For a fix that is not text (structure, links), say exactly what to change. Mark each fix with the finding's number. End with a short checklist the owner can tick. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Write the fixes
+      skills: []
+      title: SEO writer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  report:
+    cap_usd: null
+    format: md
+    from: fix
+    label: null
+    name: seo-report
+    node: artifact
+    timeout_s: null
+    title: SEO audit
+  stop:
+    cap_usd: null
+    label: null
+    message: "The page could not be read: check the address, and that it is public."
+    node: stop
+    timeout_s: null
+edges:
+  - from: fetch
+    port: out
+    to: audit
+  - from: fetch
+    port: out
+    to: both
+  - from: audit
+    port: out
+    to: both
+  - from: both
+    port: out
+    to: fix
+  - from: fix
+    port: out
+    to: report
+  - from: report
+    port: out
+    to: deliver
+  - from: fetch
+    port: failed
+    to: stop
+  - from: fetch
+    port: error
+    to: stop
+  - from: fetch
+    port: timeout
+    to: stop
+hash: sha256:03a744e5f051302c8c4bad91397ab8ce5dd12a8c8db4c1607a5bd33bfee22398

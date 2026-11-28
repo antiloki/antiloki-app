@@ -1,0 +1,30 @@
+# antiloki: the serve, as a background service of your own (systemd --user). Installed by `antiloki-main --service`.
+#
+# WHY: closing a window, a browser tab or the terminal must not stop anything. The agents' terminals live in their own host process, a team's run is
+# resumed from its last checkpoint when the serve starts, and a team's schedules are watched by the serve itself, so with the serve kept alive by systemd all of it
+# goes on while no screen is open. `loginctl enable-linger` lets it run when you are logged out.
+#
+# KillMode=process: stopping or restarting the serve leaves the terminals and the seats it started alone (they are not its children's business to die with it).
+[Unit]
+Description=antiloki serve (agents, teams and schedules keep running when the app is closed)
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+Environment=ANTILOKI_SERVE_PORT=@PORT@
+Environment=ANTILOKI_BACKGROUND=1
+Environment=ANTILOKI_PTY_HOST=sidecar
+Environment=ANTILOKI_PTY_SOCK=%h/.local/share/antiloki/pty.sock
+Environment=ANTILOKI_AGENT_BIN=%h/.local/share/antiloki-bin/main/antiloki-agent
+Environment=ANTILOKI_FE_DIR=%h/.local/share/antiloki-bin/main/dist
+Environment=PATH=@PATH@
+ExecStart=%h/.local/share/antiloki-bin/main/antiloki-serve
+Restart=on-failure
+RestartSec=5
+KillMode=process
+StandardOutput=append:%h/.cache/antiloki-serve-run.log
+StandardError=append:%h/.cache/antiloki-serve-run.log
+
+[Install]
+WantedBy=default.target

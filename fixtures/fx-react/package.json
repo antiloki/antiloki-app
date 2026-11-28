@@ -1,0 +1,7 @@
+{
+  "name": "fx-react",
+  "private": true,
+  "scripts": { "build": "echo built", "lint": "echo linted", "test": "vitest run" },
+  "dependencies": { "react": "^19.0.0" },
+  "devDependencies": { "vitest": "^2.0.0" }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "fx-flow",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}

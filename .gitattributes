@@ -1,0 +1,10 @@
+# Hash stability: the crossing computes source hashes over working-tree bytes.
+# Checkout must materialize the SAME bytes on every machine - LF, no autocrlf drift.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.gif binary
+*.wav binary
+*.mp3 binary
+*.sqlite binary
+*.onnx binary

@@ -1,0 +1,10 @@
+{
+  "schema": "antiloki-pane/1",
+  "id": "linear-issues",
+  "title": "My Linear issues (read only)",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "notes": "Lists your Linear issues by status. It only reads; it cannot change anything.",
+  "made_by": "antiloki (example)",
+  "apps": [ { "app": "linear", "read": ["list_teams", "list_issues"], "write": [] } ]
+}

@@ -1,0 +1,42 @@
+target/
+node_modules/
+*.log
+.env
+
+
+# Runtime substrate DBs written when the engine is run from this directory.
+# The canonical .antiloki/ lives in the workspace root, not in the Rust crate.
+.antiloki/
+
+# One-off backup taken during the 2026-08-13 workspace merge.
+Cargo.lock.pre-workspace.bak
+
+# the staged sidecar (scripts/stage-agent-sidecar.sh) — a build artifact, per target triple
+tauri/binaries/
+
+# bench ARTEFACTS, not bench code (2026-09-23): the scripts, fixtures and asks are the repository's; the run JSON,
+# the compiled audits and the per-arm logs are megabytes of evidence that live in the paper's tables instead.
+bench/*/out/
+bench/ladder/one-worker/
+bench/ladder/s-repeat*/
+bench/ladder/auto-*/
+bench/min-work/
+bench/min/out/
+bench/jobs/out*.log
+bench/jobs/results.json
+bench/swtbench/out/
+target-cov/
+default_*.profraw
+
+# Python bytecode
+__pycache__/
+*.pyc
+bench/local-ai/runner/target/
+bench/local-ai/results/diffs/
+briefs/
+autopilot-logs/
+# cargo check caches (cargo xwin check, scratch targets): never commit (an 8,010-file cache was committed by mistake on 2026-11-16)
+target-check/
+target-fast/
+target-release/
+target-opt/

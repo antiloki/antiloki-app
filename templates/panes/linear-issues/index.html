@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>My Linear issues</title>
+<style>
+  body { padding: 12px 16px; }
+  h1 { font-size: 15px; margin: 0 0 10px; }
+  .group { margin: 12px 0 4px; color: var(--c-muted, #888); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .issue { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--c-border, #333); }
+  .id { color: var(--c-muted, #888); width: 64px; flex-shrink: 0; }
+  #err { color: var(--c-bad, #e55); }
+</style></head>
+<body>
+  <h1>My Linear issues</h1>
+  <div id="err" role="alert"></div>
+  <div id="list">Reading…</div>
+  <script>
+    (async function () {
+      var list = document.getElementById("list"), err = document.getElementById("err");
+      try {
+        var teams = await antiloki.read("linear", "list_teams", {});
+        var team = (teams.teams || [])[0]; if (!team) { list.textContent = "No team found."; return; }
+        var r = await antiloki.read("linear", "list_issues", { team: team.id || team.name, limit: 30 });
+        var groups = {}; (r.issues || []).forEach(function (i) { var s = i.status || "Other"; (groups[s] = groups[s] || []).push(i); });
+        list.textContent = "";
+        Object.keys(groups).forEach(function (s) {
+          var h = document.createElement("div"); h.className = "group"; h.textContent = s + " " + groups[s].length; list.appendChild(h);
+          groups[s].forEach(function (i) { var d = document.createElement("div"); d.className = "issue"; var a = document.createElement("span"); a.className = "id"; a.textContent = i.id; var b = document.createElement("span"); b.textContent = i.title; d.appendChild(a); d.appendChild(b); list.appendChild(d); });
+        });
+        if (!Object.keys(groups).length) list.textContent = "No issues.";
+      } catch (e) { list.textContent = ""; err.textContent = String(e.message || e); }
+    })();
+  </script>
+</body></html>

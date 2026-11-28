@@ -1,0 +1,16 @@
+[package]
+name = "antiloki-ptyhost"
+version = "0.5.5-4.7"
+edition = "2021"
+description = "RFC 0007: the terminal host. A daemon that owns PTYs so a terminal outlives the process that started it, a protocol, a client, and a screen-state engine for exact reattach. Run as `antiloki-agent pty-host`."
+
+[lib]
+name = "antiloki_ptyhost"
+path = "src/lib.rs"
+
+[dependencies]
+serde_json = "1"
+# the same PTY crate the serve uses (ConPTY / openpty)
+portable-pty = "0.9"
+# the screen engine behind the ScreenEngine trait; Ghostty's libghostty-vt is the other candidate (RFC 0007 §5.1.1)
+vt100 = "0.18"

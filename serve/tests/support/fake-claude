@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""A SCRIPTED SEAT (PLAN-THE-TESTS phase 2). Stands in for `claude -p --input-format stream-json --output-format stream-json`:
+one long-lived process, one JSON user message per stdin line, and for each: assistant text events then a `result` event.
+Behaviour comes from the message itself or from FAKE_SEAT_MODE, so a journey test can script a seat without a network or a quota:
+  ok (default)   reply "ack: <last 80 chars of the ask>"           slow:<ms>   sleep, then reply
+  error          result with is_error=true                            empty       result with an empty reply
+  hang           never answer                                         garbage     print a non-JSON line before the reply
+  rate           result is_error with a usage-limit message           write:<f>   create file <f> in the cwd, then reply
+A line "FAKE:<mode>" inside the user's text overrides the env for that turn (so one pane can go ok -> error -> ok)."""
+import json, os, re, sys, time, uuid
+sid = os.environ.get("FAKE_SEAT_SESSION") or str(uuid.uuid4())
+model = os.environ.get("FAKE_SEAT_MODEL", "fake-sonnet")
+def out(o): sys.stdout.write(json.dumps(o) + "\n"); sys.stdout.flush()
+# A JOURNEY CAN ASK WHICH SEAT WAS CALLED (the Claude-off journey): one line per process, named by the binary it was reached through
+if os.environ.get("FAKE_SEAT_CALLS_LOG"):
+    with open(os.environ["FAKE_SEAT_CALLS_LOG"], "a") as _cl: _cl.write(os.path.basename(sys.argv[0]) + "\n")
+
+# ── ONE-SHOT MODE (the router's planner / screen / worker / verifier / QA calls): `claude -p --output-format stream-json …` with the prompt on stdin.
+# The role is read from the prompt's own wording (the shipped templates), the behaviour from FAKE: markers in the GOAL line:
+#   FAKE:write:<path>   the worker creates <path> in the box          FAKE:qa:<n>   the QA gate (claim check + review) finds the work unmet <n> times, then passes
+#   FAKE:slow:<ms>      the worker takes that long (a run that is still doing when the test acts)
+#   FAKE:ask            the screening step asks one question            FAKE:ratify-no   the ratifier refuses the plan once
+#   FAKE:tokens:<n>     every call of the run reports <n> input tokens (so the router's saving is a number a test can tell from another run's)
+def one_shot():
+    prompt = sys.stdin.read()
+    # TEAM GRAPH NODES (RFC 0008): a role node's prompt carries "[team-graph <run> · <node> · <try>]"; FAKE_TG_SCRIPT names a JSON file {node: [{"text": str|obj, "write": {path: body}, "cost": usd}, ...]}:
+    # the node's Nth call plays entry N (the last one repeats): it writes the files, answers the text, and reports the cost, so a journey scripts a whole team without a model
+    tg = re.search(r"\[team-graph (\S+) \u00b7 (\S+) \u00b7 (\d+)\]", prompt)
+    if tg and os.environ.get("FAKE_TG_SCRIPT"):
+        script = json.load(open(os.environ["FAKE_TG_SCRIPT"])); node = tg.group(2)
+        sd = os.environ.get("FAKE_SEAT_STATE_DIR", os.path.join(os.getcwd(), ".fake-seat")); os.makedirs(sd, exist_ok=True)
+        cp = os.path.join(sd, "tg-" + node); k = int(open(cp).read()) if os.path.exists(cp) else 0; open(cp, "w").write(str(k + 1))
+        entries = script.get(node) or [{"text": "ok"}]; e = entries[min(k, len(entries) - 1)]
+        if e.get("sleep"): time.sleep(float(e["sleep"]))
+        for rel, body in (e.get("write") or {}).items():
+            os.makedirs(os.path.dirname(os.path.join(os.getcwd(), rel)) or ".", exist_ok=True); open(os.path.join(os.getcwd(), rel), "w").write(body)
+        text = e["text"] if isinstance(e.get("text"), str) else json.dumps(e.get("text", {}))
+        usage = {"input_tokens": 100, "output_tokens": 20, "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0}
+        out({"type": "system", "subtype": "init", "session_id": sid, "model": model, "cwd": os.getcwd(), "tools": []})
+        out({"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": text}], "usage": usage}, "session_id": sid})
+        out({"type": "result", "subtype": "success", "is_error": bool(e.get("error")), "result": text, "session_id": sid, "duration_ms": 5, "total_cost_usd": float(e.get("cost", 0.0002)), "usage": usage, "num_turns": 1})
+        return
+    goal_m = re.search(r"GOAL: (.*)", prompt); goal = goal_m.group(1) if goal_m else prompt
+    # the markers of THIS run come from its GOAL line; the prompt also carries the queue's state (other items' words), which must not steer it
+    scope = goal if "FAKE:" in goal else prompt
+    marks = " ".join(re.findall(r"FAKE:\S+", scope))
+    state_dir = os.environ.get("FAKE_SEAT_STATE_DIR", os.path.join(os.getcwd(), ".fake-seat")); os.makedirs(state_dir, exist_ok=True)
+    def counter(name):
+        p = os.path.join(state_dir, name); n = int(open(p).read()) if os.path.exists(p) else 0; open(p, "w").write(str(n + 1)); return n
+    wm = re.search(r"FAKE:write:([\w./-]+)", scope); path = wm.group(1) if wm else None
+    qm = re.search(r"FAKE:qa:(\d+)", scope); qa_n = int(qm.group(1)) if qm else 0
+    if "You are writing a short API TEST" in prompt:
+        # the QA's API test (backend QA): the marker chooses a plan that passes on the box's server or one that asks for something it does not answer
+        if "FAKE:api-fail" in prompt: text = json.dumps([{"do": "get", "path": "/api/hello"}, {"do": "expect", "status": 200, "json": "message", "contains": "hello"}, {"do": "get", "path": "/api/missing"}, {"do": "expect", "status": 200}])
+        else: text = json.dumps([{"do": "get", "path": "/api/hello"}, {"do": "expect", "status": 200, "json": "message", "contains": "hello"}, {"do": "get", "path": "/api/missing"}, {"do": "expect", "status": 404}])
+    elif "choosing what a headless browser should capture" in prompt:
+        # the QA's evidence plan (visual QA): open the app it is told about and take one look
+        am = re.search(r"THE APP IS AT: (\S+)", prompt); app = am.group(1) if am else "http://localhost:5173/"
+        text = json.dumps([{"do": "goto", "url": app}, {"do": "click", "target": "text=Add to cart"}, {"do": "wait", "ms": 300}, {"do": "shot", "name": "page"}])   # the click fails harmlessly on a page without that button
+        # a plan that TESTS (deterministic checks): FAKE:checks passes on the page the fake worker writes, FAKE:checks-fail asks for text the page does not have
+        if "FAKE:checks-fail" in prompt: text = json.dumps([{"do": "goto", "url": app}, {"do": "expect", "text": "a zebra crossing"}, {"do": "shot", "name": "page"}])
+        elif "FAKE:checks" in prompt: text = json.dumps([{"do": "goto", "url": app}, {"do": "expect", "text": "written by the fake seat"}, {"do": "expect_no", "text": "zebra"}, {"do": "shot", "name": "page"}])
+    elif "Check ONE claim against the code" in prompt:
+        open(os.path.join(state_dir, "claim-prompt.txt"), "w").write(prompt)   # so a journey can see what the claim check was given
+        n = counter("claim")
+        text = json.dumps({"met": True, "why": "scripted: the claim holds"} if n >= qa_n else {"met": False, "why": f"scripted: the claim does not hold yet (check {n + 1})"})
+    elif "senior product designer reviewing ONE web page" in prompt:
+        # the DESIGN CRITIC (S5): FAKE:critic-prose answers in prose the first time (the re-ask must follow), FAKE:critic-none finds nothing to change; otherwise three fixes
+        open(os.path.join(state_dir, "critique-prompt.txt"), "w").write(prompt)
+        n = counter("critique")
+        if "FAKE:critic-prose" in prompt and "could not be used" not in prompt: text = "The page is quite plain. I would add some spacing and a stronger heading."
+        elif "FAKE:critic-none" in prompt: text = json.dumps({"fixes": []})
+        else: text = json.dumps({"fixes": [
+            {"axis": "spacing", "where": "the product grid", "problem": "cards touch the toolbar", "fix": "increase the gap between the toolbar and the grid to 24px", "evidence": "screenshot 1"},
+            {"axis": "typography", "where": "headings", "problem": "h1 and h2 are nearly the same size", "fix": "set h1 to 32px/700 and h2 to 20px/600", "evidence": "lint type_scale"},
+            {"axis": "polish", "where": "buttons", "problem": "two button styles", "fix": "give Add and Clear one shared style with a 6px radius", "evidence": "screenshot 1"}]})
+    elif "SCREENING step" in prompt:
+        text = json.dumps({"questions": ["Which format should the file use?"] if "FAKE:ask" in marks and counter("screen") == 0 else []})
+    elif '"tasks":[' in prompt and "ONE JSON object only" in prompt:
+        t = {"id": "t1", "title": "write the file", "tier": "low", "prompt": f"Create the file {path or 'out.txt'}. {marks}", "owns": [path or "out.txt"], "needs": [], "acceptance": ["the file exists"]}
+        text = json.dumps({"tier": "mid", "delegate": True, "why": "scripted", "confidence": "high", "assumptions": [], "tasks": [t]})
+    elif "Refuse the plan only for defects" in prompt:
+        text = json.dumps({"ok": False, "problems": ["t1: scripted refusal"]} if "FAKE:ratify-no" in marks and counter("ratify") == 0 else {"ok": True, "problems": []})
+    elif "End with a REPORT" in prompt:
+        sl = re.search(r"FAKE:slow:(\d+)", scope)
+        if sl: time.sleep(int(sl.group(1)) / 1000.0)
+        with open(os.path.join(state_dir, "worker-prompts.txt"), "a") as wp: wp.write("\n=====WORKER PROMPT=====\n" + prompt)   # so a journey can see what a send-back told the builder
+        if path:
+            os.makedirs(os.path.dirname(os.path.join(os.getcwd(), path)) or ".", exist_ok=True)
+            body = f"written by the fake seat ({counter('write')})\n"
+            # FAKE:html:<good|lowcontrast|stuck> - a real page: `good` fits a phone and passes every check (pages/good-responsive.html); `lowcontrast` is the design fixture with grey #a3a3a3 text, built unreadable the first time and FIXED once the brief says a design rule failed; `stuck` never is.
+            hm = re.search(r"FAKE:html:(\w+)", scope)
+            if hm:
+                here = os.path.dirname(os.path.realpath(__file__))
+                bad = hm.group(1) == "stuck" or (hm.group(1) == "lowcontrast" and "design rule" not in prompt)
+                page = os.path.join(here, "..", "..", "..", "bench", "design", "fixtures", "bad-contrast-defaults.html") if bad else os.path.join(here, "pages", "good-responsive.html")
+                body = open(page).read() + f"\n<!-- written by the fake seat ({counter('write2')}) -->\n"
+            open(os.path.join(os.getcwd(), path), "w").write(body)
+        text = f"REPORT: created {path or 'nothing'}.\nFINDING: none"
+    elif '"findings"' in prompt and '"kind"' in prompt:
+        n = counter("qa")
+        text = json.dumps({"passed": True, "score": 95, "summary": "scripted pass", "findings": [{"task": "t1", "kind": "ok", "text": "as asked"}]} if n >= qa_n
+                          else {"passed": False, "score": 40, "summary": "scripted: the work is not there yet", "findings": [{"task": "t1", "kind": "unmet", "text": f"scripted unmet criterion (round {n + 1})"}]})
+    elif '{"passed"' in prompt and '"reasons"' in prompt:
+        text = json.dumps({"passed": True, "reasons": ["met"]})
+    elif "ORCHESTRATOR closing a goal run" in prompt:
+        text = "Summary: scripted run.\n\n## t1\nstatus: done"
+    else:
+        text = "ack"
+    tk = re.search(r"FAKE:tokens:(\d+)", scope)
+    usage = {"input_tokens": int(tk.group(1)) if tk else 200, "output_tokens": 40, "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0}
+    out({"type": "system", "subtype": "init", "session_id": sid, "model": model, "cwd": os.getcwd(), "tools": []})
+    # FAKE_RATE_LIMIT=1: the account's plan windows ride the stream, as the real `claude -p` prints them (the first-run seat check reads them): 12 % of the 5-hour window, 41 % of the week
+    if os.environ.get("FAKE_RATE_LIMIT"):
+        now = int(time.time())
+        out({"type": "rate_limit_event", "rate_limit_info": {"status": "allowed", "unifiedWindows": {"five_hour": {"utilization": 0.12, "resetsAt": now + 3 * 3600}, "seven_day": {"utilization": 0.41, "resetsAt": now + 5 * 86400}}}, "session_id": sid})
+    out({"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": text}], "usage": usage}, "session_id": sid})
+    out({"type": "result", "subtype": "success", "is_error": False, "result": text, "session_id": sid, "duration_ms": 5, "total_cost_usd": 0.0002, "usage": usage, "num_turns": 1})
+
+if "--input-format" not in sys.argv:
+    one_shot(); sys.exit(0)
+out({"type": "system", "subtype": "init", "session_id": sid, "model": model, "cwd": os.getcwd(), "tools": []})
+turn = 0
+for line in sys.stdin:
+    line = line.strip()
+    if not line: continue
+    try: msg = json.loads(line)
+    except Exception: continue
+    if msg.get("type") != "user": continue
+    c = msg.get("message", {}).get("content", "")
+    text = c if isinstance(c, str) else " ".join(b.get("text", "") for b in c if isinstance(b, dict))
+    m = re.search(r"FAKE:([a-z]+(?::[^\s]+)?)", text); mode = m.group(1) if m else os.environ.get("FAKE_SEAT_MODE", "ok")
+    turn += 1
+    if mode == "hang": continue
+    if mode.startswith("slow:"): time.sleep(int(mode.split(":", 1)[1]) / 1000.0)
+    if mode == "garbage": sys.stdout.write("this is not json\n"); sys.stdout.flush()
+    if mode.startswith("write:"):
+        p = mode.split(":", 1)[1]; os.makedirs(os.path.dirname(os.path.join(os.getcwd(), p)) or ".", exist_ok=True)
+        open(os.path.join(os.getcwd(), p), "w").write(f"written by the fake seat, turn {turn}\n")
+    usage = {"input_tokens": 100, "output_tokens": 20, "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0}
+    if mode == "rate":
+        out({"type": "result", "subtype": "success", "is_error": True, "result": "You've hit your usage limit.", "session_id": sid, "total_cost_usd": 0, "usage": usage}); continue
+    if mode == "error":
+        out({"type": "result", "subtype": "error_during_execution", "is_error": True, "result": "the fake seat failed on purpose", "session_id": sid, "total_cost_usd": 0, "usage": usage}); continue
+    # the chat wraps the first turn in a long preamble; the operator's words are at the END
+    clean = re.sub(r"FAKE:\S+", "", text).strip()[-80:]
+    reply = "" if mode == "empty" else "ack: " + clean
+    if reply: out({"type": "assistant", "message": {"role": "assistant", "content": [{"type": "text", "text": reply}], "usage": usage}, "session_id": sid})
+    out({"type": "result", "subtype": "success", "is_error": False, "result": reply, "session_id": sid, "duration_ms": 5, "total_cost_usd": 0.0001, "usage": usage, "num_turns": 1})

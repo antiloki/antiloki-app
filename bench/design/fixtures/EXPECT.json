@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "about": "Six standalone pages with KNOWN design quality, rendered at 1280x800. `node shoot.mjs fixtures` runs the D1 lint on each and compares with this file; the same expectations are the unit-test fixtures for the Rust port (PLAN-THE-DESIGN S1: 'lints separate a fixture pair of known-good/known-bad pages; no false positive on a plain shop page'). A check listed in must_pass or must_fail is asserted; a check listed in neither is not asserted for that page (it is allowed to go either way).",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "checks": [
+    "text_contrast",
+    "spacing_scale",
+    "type_scale",
+    "palette_size",
+    "alignment",
+    "overflow_clipping",
+    "tap_targets",
+    "states",
+    "defaults"
+  ],
+  "weights": {
+    "text_contrast": 3,
+    "overflow_clipping": 3,
+    "spacing_scale": 2,
+    "type_scale": 2,
+    "alignment": 2,
+    "tap_targets": 2,
+    "states": 2,
+    "defaults": 2,
+    "palette_size": 1
+  },
+  "thresholds": {
+    "text_contrast": "ratio >= 4.5 (>= 3.0 for text >= 24px, or >= 18.66px at weight >= 700); ok when zero text nodes are below",
+    "spacing_scale": "share of non-zero margin/padding/gap values that are multiples of 4px (+-0.5) >= 0.9 AND distinct values <= 10; horizontal margins > 64px are skipped as auto-centering",
+    "type_scale": "distinct font sizes (text-bearing elements) <= 6 AND distinct weights <= 4 AND every consecutive pair of sizes differs by a ratio >= 1.125",
+    "palette_size": "distinct colours (text, background, drawn borders) after quantising each channel to 16 steps <= 12",
+    "alignment": "in a stacked container (>= 3 children, each on its own row) the left edges, or the centres, form one cluster; in a single-row container the tops, or the vertical centres, or the bottoms form one cluster (tolerance 1.5px); grids and wrapped rows are not judged",
+    "overflow_clipping": "no element with overflow hidden/clip whose content is larger than its box and that holds text (single-line text-overflow:ellipsis is intentional and skipped); no horizontal page scroll; nothing past the right edge outside a scroller",
+    "tap_targets": "every visible link/button/input/select/summary is >= 32x32 px (inline links inside running text and checkbox/radio inputs with a bigger label are exempt)",
+    "states": "among probed buttons/links >= 80% change computed style on :hover, and among elements reached with Tab >= 80% change on :focus",
+    "defaults": "no button/select/input/textarea still carries the user-agent look (13.33px UA font with the grey bevel/#767676 border/#efefef fill)"
+  },
+  "fixtures": {
+    "good-shop.html": {
+      "quality": "good",
+      "what": "nav, headline, three product cards with a primary button; 8px scale (8/16/24/32/48), 14/16/32px type, 400/600 weights, one accent, 40px targets, hover + focus-visible",
+      "must_pass": [
+        "text_contrast",
+        "spacing_scale",
+        "type_scale",
+        "palette_size",
+        "alignment",
+        "overflow_clipping",
+        "tap_targets",
+        "states",
+        "defaults"
+      ],
+      "must_fail": [],
+      "score_min": 0.99
+    },
+    "good-form.html": {
+      "quality": "good",
+      "what": "checkout form with labels above inputs on one left edge, a three-column row, a styled select, a summary panel; 14/16/24px type",
+      "must_pass": [
+        "text_contrast",
+        "spacing_scale",
+        "type_scale",
+        "palette_size",
+        "alignment",
+        "overflow_clipping",
+        "tap_targets",
+        "states",
+        "defaults"
+      ],
+      "must_fail": [],
+      "score_min": 0.99
+    },
+    "good-list.html": {
+      "quality": "good",
+      "what": "orders list: toolbar with input + select + button on one 40px centre line, rows on one grid, status pills with AA contrast; 14/16/24px type",
+      "must_pass": [
+        "text_contrast",
+        "spacing_scale",
+        "type_scale",
+        "palette_size",
+        "alignment",
+        "overflow_clipping",
+        "tap_targets",
+        "states",
+        "defaults"
+      ],
+      "must_fail": [],
+      "score_min": 0.99
+    },
+    "bad-spacing-type-colour.html": {
+      "quality": "bad",
+      "what": "nine font sizes (11 12 13 14 15 16 17 19 22) and six weights, margins/paddings on no grid (3 5 6 7 9 11 13 17 19 21 23 27 29), 23 unrelated colours; everything else deliberately fine",
+      "must_pass": [
+        "text_contrast",
+        "overflow_clipping",
+        "tap_targets",
+        "defaults"
+      ],
+      "must_fail": [
+        "spacing_scale",
+        "type_scale",
+        "palette_size"
+      ],
+      "score_max": 0.75
+    },
+    "bad-contrast-defaults.html": {
+      "quality": "bad",
+      "what": "#a3a3a3 body copy and heading on white (2.52:1), bare browser-default input/select/button/submit, two 20x20 icon buttons; one clean left-aligned column",
+      "must_pass": [
+        "alignment",
+        "overflow_clipping"
+      ],
+      "must_fail": [
+        "text_contrast",
+        "defaults",
+        "tap_targets"
+      ],
+      "score_max": 0.75
+    },
+    "bad-misaligned-clipped.html": {
+      "quality": "bad",
+      "what": "columns starting at 0/14/6px with different heights, a stacked list with left edges 0/7/13/3, two boxes that clip their text, 20px targets, outline:none and no hover on every control; dark text on white, few colours, flat styled controls",
+      "must_pass": [
+        "text_contrast",
+        "defaults",
+        "palette_size"
+      ],
+      "must_fail": [
+        "alignment",
+        "overflow_clipping",
+        "tap_targets",
+        "states"
+      ],
+      "score_max": 0.75
+    }
+  }
+}

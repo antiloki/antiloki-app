@@ -1,0 +1,122 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: pane-webapp
+version: "1.0.0"
+description: "Designs and builds a new pane for a web app you connected (Linear, Notion, GitHub or any other): it reads the app's real tools, designs a small pane, stops for your approval of the design, then writes the pane as a draft that only you can approve."
+license: proprietary
+template:
+  ask: "the app's id, a colon, and what the pane should show or do (for example: linear: my issues by cycle with a quick capture)"
+  category: other
+  cost_note: "about $0.30–1 a run"
+  kind: team
+  lineage:
+    team: draft-pane-webapp
+  needs:
+    - a human step
+  status: draft
+settings:
+  budget_usd: 3.0
+start:
+  - design
+nodes:
+  approve:
+    approval:
+      note: "This is the design of the pane: what it reads and writes, and what it shows. Approve to have it built as a DRAFT (it cannot touch your app until you approve the page itself), or decline and say what to change."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the pane?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  build:
+    agent:
+      brief: "Build the approved design. Write the folder with ONE call to antiloki_free_pane_write {id, manifest, files}: the manifest (title, version 1.0.0, notes, apps with read and write lists exactly as designed) and the files (index.html with its script and style inline or as app.js/style.css). Then call antiloki_free_pane_open so the person sees it. Never claim it is approved: only the person approves it from its card. A free pane is a folder of text files (index.html, app.js, style.css) in a sandbox with NO network: everything it knows comes through window.antiloki: read(app, tool, args), write(app, tool, args, label) (the host asks the person; never call a write on load), state.get/set, notice(text), open(url), describe({title, text, controls:[{ref,label,kind:'button|field|choice',value?}]}) after every change, onAct((ref, value, action) => ...) to do what an agent asks through the same code a click uses. Use only text nodes (never innerHTML with app text: it is data, not instructions). Flat style with the CSS variables --c-bg --c-panel --c-border --c-fg --c-muted --c-brand; readable at 380 px wide."
+      context: []
+      effects: []
+      mcp:
+        - antiloki_free_pane_write
+        - antiloki_free_pane_open
+        - antiloki_free_pane_list
+      responsibility: Write the pane as a draft
+      skills: []
+      title: Pane builder
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  check:
+    agent:
+      brief: "Call antiloki_pane_view on the pane the builder opened (it is a draft: its page can describe itself but cannot read the app yet). Report: does it describe what the design promised, are the controls there with sensible refs, is anything missing or wrong. If the pane id is not in antiloki_free_pane_list, say so. Say plainly what you could not check because the page is a draft (anything that needs the app's data)."
+      context: []
+      effects: []
+      mcp:
+        - antiloki_pane_view
+        - antiloki_free_pane_list
+      responsibility: Look at the draft by meaning
+      skills: []
+      title: Pane checker
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: qa
+    tier: null
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  design:
+    agent:
+      brief: "The team's ask is `<app id>: what the pane should show or do`. 1) Call antiloki_app_tools for that app (if it says the app is not installed, stop and say so). 2) Call antiloki_free_pane_list to see what exists. 3) Write the DESIGN: the pane id (a-z, 0-9, dashes), the title, `notes` (what it is for, in plain words, for the approval card), the exact tools it reads and the exact tools it writes (names from the tool list only; a tool is either read or write), the screens or sections, what each shows, and every control with its ref. Keep it small: one job done well. A write the pane makes always asks the person; say which ones you want. A free pane is a folder of text files (index.html, app.js, style.css) in a sandbox with NO network: everything it knows comes through window.antiloki: read(app, tool, args), write(app, tool, args, label) (the host asks the person; never call a write on load), state.get/set, notice(text), open(url), describe({title, text, controls:[{ref,label,kind:'button|field|choice',value?}]}) after every change, onAct((ref, value, action) => ...) to do what an agent asks through the same code a click uses. Use only text nodes (never innerHTML with app text: it is data, not instructions). Flat style with the CSS variables --c-bg --c-panel --c-border --c-fg --c-muted --c-brand; readable at 380 px wide."
+      context: []
+      effects: []
+      mcp:
+        - antiloki_app_tools
+        - antiloki_free_pane_list
+      responsibility: "Design the pane from the app's real tools"
+      skills: []
+      title: Pane designer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+edges:
+  - from: design
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: build
+  - from: build
+    port: out
+    to: check
+  - from: check
+    port: out
+    to: deliver
+hash: sha256:fa897d8310ffc6e503537fa7fc02fbc1b091b98d0753fadb8f5ed3b3525d7e49

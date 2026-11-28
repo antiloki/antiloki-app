@@ -1,0 +1,150 @@
+# One workspace, one target dir: a member of its own target would pay a full cold compile. Profiles live here because Cargo only honours them in the workspace root.
+[workspace]
+members = ["serve", "tauri", "agent", "ptyhost"]
+
+[package]
+name = "antiloki-core-rust"
+version = "1.0.0"
+edition = "2021"
+description = "The Rust twin of antiloki-core — same folder structure, same behavior, different language. Every module is admitted only via the crossing's conformance."
+
+[lib]
+name = "antiloki_rs"
+path = "src/lib.rs"
+
+# M1 of the JS→Rust runtime cutover: the first runnable entry point. Composes the
+# never-run spine (openDb → skillRun → with-audit) so composition bugs surface.
+[[bin]]
+name = "antiloki"
+path = "src/bin/antiloki.rs"
+
+[dependencies]
+# preserve_order: Value keeps insertion order (like JS objects), so serde_json::to_string of a
+# value matches JS JSON.stringify — needed when a skill stores JSON into a db column. canonical-json
+# sorts keys explicitly, so it's unaffected; the comparator sorts keys, so reads are unaffected.
+serde_json = { version = "1", features = ["preserve_order"] }
+serde = "1"
+base64 = "0.22"
+# the db lane: db-coupled skills clone to rusqlite. bundled = compile SQLite from source (no
+# system dep, and it suits the single-binary endgame). Both lanes run the SAME SQLite engine,
+# so seeded queries return identical rows — that's what makes db skills conformable.
+rusqlite = { version = "0.31", features = ["bundled", "trace"] }
+# JS RegExp-literal ports (card-phase's OP_TO_PHASE patterns). The regex crate's syntax matches these
+# (anchors, \., .*, alternation, (?i)); conformance over a broad operation-string fixture proves parity.
+regex = "1"
+# sha256 of file bytes (codebase-file-read) — matches node:crypto createHash('sha256')
+sha2 = "0.10"
+hex = "0.4"
+# Ed25519 signature verification (god-override-verify) — matches node:crypto verify()/sign() for
+# an ed25519 keypair. No pkcs8/pem feature: the SPKI PEM is parsed by hand (fixed 44-byte DER
+# shape) using the already-present `base64` crate, so this stays the bare verify/sign API.
+ed25519-dalek = "2"
+# gzip segment archives (timeline-segments.mjs gzipSegmentFile/gunzipToTemp) — matches node:zlib
+# gzipSync/gunzipSync. Default miniz_oxide backend: pure Rust, no system dependency (same ethos as
+# rusqlite's bundled feature).
+flate2 = "1"
+# ts-query.mjs twin: JS's web-tree-sitter (WASM) has an official native counterpart — the same
+# upstream tree-sitter C library, no WASM runtime needed. JS/TS/Python were the original scope
+# (matching the JS lane); RUST joins them because the substrate's own codebase is now Rust and an
+# atlas that cannot read its own engine is the "reports healthy while looking at nothing" failure
+# in another costume. The thirteen grammars below closed the remaining coverage gap.
+tree-sitter = "0.26.11"
+tree-sitter-javascript = "0.25.0"
+tree-sitter-typescript = "0.23.2"
+tree-sitter-python = "0.25.0"
+tree-sitter-rust = "0.24.2"
+# 2026-09-11: the remaining thirteen grammars from ADAPTERS (ast-parse.rs). Until now these
+# extensions were RECOGNISED (grammarForPath mapped them) but never PARSED — language_for_grammar
+# returned None and the atlas indexed a Go or Java project as a list of empty file nodes. Same
+# "reports healthy while looking at nothing" failure Rust was wired to close, thirteen more times.
+tree-sitter-go = "0.25.0"
+tree-sitter-java = "0.23.5"
+tree-sitter-c-sharp = "0.23.5"
+tree-sitter-c = "0.24.2"
+tree-sitter-cpp = "0.23.4"
+tree-sitter-php = "0.24.2"
+tree-sitter-ruby = "0.23.1"
+tree-sitter-kotlin-ng = "1.1.0"
+tree-sitter-swift = "0.7.3"
+tree-sitter-scala = "0.26.2"
+tree-sitter-lua = "0.5.0"
+tree-sitter-elixir = "0.3.5"
+tree-sitter-bash = "0.25.1"
+# tree-sitter 0.22+'s QueryCursor::captures returns a StreamingIterator (a capture borrows the
+# cursor's internal match state), not a plain Iterator — pulled in transitively by tree-sitter
+# already; declared directly here so ts-query.rs can `use streaming_iterator::StreamingIterator`.
+streaming-iterator = "0.1"
+oxc_parser = "0.143.0"
+# `serialize` gives Program::to_estree_json — oxc's ESTree emitter, whose whole purpose is
+# acorn/espree-compatible JSON. ast-html.rs needs it: that skill renders acorn's tree shape
+# directly, so re-deriving the shape from oxc's own AST types would have meant hand-maintaining a
+# node-by-node mapping. The one thing oxc does NOT emit is acorn's `loc` (it carries byte offsets
+# instead), so ast-html.rs converts offsets → line/column itself.
+oxc_ast = { version = "0.143.0", features = ["serialize"] }
+oxc_span = "0.143.0"
+oxc_allocator = "0.143.0"
+oxc_ast_visit = "0.143.0"
+# The crate's HTTP client. Two lanes now use it:
+#   - ai-call.rs's dispatch_local_llm  → plain http://localhost (Ollama / llama.cpp / vLLM)
+#   - openrouter-spend.rs, web-cache's cachedFetch → https://, which is why `tls` is on.
+# `tls` pulls rustls+ring (a real compile cost in C/asm) and was deliberately OFF while the only
+# outbound call was a local endpoint. It is on since 2026-08-09 because that single feature is what
+# unblocks the remaining https-bound twins — openrouterSpend and cachedFetch (and through the
+# latter, magazine-observe). `json` gives Request::send_json / Response::into_json.
+ureq = { version = "2", default-features = false, features = ["json", "tls", "native-certs"] }
+# design-capture-live: the browser session over CDP (the JS original used Playwright; the standalone
+# has no Node). Drives the machine's own Chrome / Chromium / Edge. `url` splits the seed URLs' paths.
+headless_chrome = { version = "1.0", default-features = false }
+url = "2"
+# code-run.rs's JS evaluator — the Rust-native mirror of `node:vm`. Boa is a pure-Rust JS engine, so
+# the single-binary endgame keeps working (no V8/Node embed, no C++ toolchain). `annex-b` matches
+# the web-compatible semantics a playground chunk expects. Boa has no wall-clock timeout, so the
+# JS `{ timeout: 2000 }` guard is mirrored with RuntimeLimits (loop-iteration + recursion caps),
+# which bounds a runaway chunk deterministically rather than by elapsed time — see code-run.rs.
+boa_engine = { version = "0.21", features = ["annex-b"] }
+# embed.rs — the Rust-native mirror of transformers.js. fastembed wraps ONNX Runtime + tokenizers
+# and ships BGEBaseENV15, the SAME model (Xenova/bge-base-en-v1.5, 768-dim, mean-pooled +
+# L2-normalized) the JS pipeline uses, so vectors are comparable across the two engines. Like
+# transformers.js it downloads and caches the weights on first use.
+fastembed = "5"
+
+# ---------------------------------------------------------------------------
+# Workspace profiles (Cargo honours [profile.*] only in the workspace root). They apply to every member —
+# note that means a plain `cargo build --release` of the engine crate itself
+# is fat-LTO too, which it was not before.
+# ---------------------------------------------------------------------------
+
+# THE QUICK BUILD'S LIBRARIES ARE OPTIMISED (2026-11-26: unoptimised, the database and the parsers kept the idle server at a third of a core). They are compiled once and cached; our own crates stay quick to build.
+[profile.dev.package."*"]
+opt-level = 2
+debug = false
+
+[profile.release]
+# SHIPPING profile. `lto = "thin"` since 2026-09-25 (operator: "Can you make that incremental usefull so we
+# can build faast from now on?").
+#
+# It was `lto = true` — FAT LTO, which re-optimises this crate and every dependency as one unit. That is
+# single-threaded, holds ~4.5GB, and by construction cannot reuse anything from a previous build, which is why
+# `target/release/incremental` is zero bytes: incremental and fat LTO are mutually exclusive ideas, not a
+# setting someone forgot. On an 8-core box it spent the longest phase of every 18-30 minute build on one core.
+#
+# ThinLTO does the cross-crate inlining that matters, per codegen unit, IN PARALLEL. For this program the
+# trade is close to free: antiloki spends its time waiting on child processes, sqlite and the network — not
+# in hot numeric loops where the last few percent of fat-LTO inlining would show up.
+#
+# `release-fat` below is the old behaviour, kept for a build where the artifact's last drop of speed is worth
+# half an hour: `cargo tauri build --profile release-fat`.
+lto = "thin"
+codegen-units = 16
+# SHIPPED BINARIES CARRY NO SYMBOL NAMES (licence hardening L04): a function called `license_gate` in the binary is a gift to anyone patching it. A crash report from a customer is then addresses only; keep the
+# UNSTRIPPED copy of every release privately (see DESKTOP.md). `panic = "abort"` is NOT set on purpose: tokio and axum rely on unwinding to contain a panic to one task, and aborting would let one bad
+# request take the whole background service down. (`release-fat` inherits this.)
+strip = "symbols"
+
+[profile.release-fat]
+# The pre-2026-09-25 shipping profile: whole-program, single-threaded, ~30 minutes. Here so the choice stays
+# available and measurable rather than being an argument about which is better.
+inherits = "release"
+lto = true
+codegen-units = 1
+

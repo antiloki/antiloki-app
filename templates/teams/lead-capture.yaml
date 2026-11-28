@@ -1,0 +1,149 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: lead-capture
+version: "1.0.0"
+description: "Searches the web for people or companies like your ideal customer, scores them with a reason each, drafts a first message, and stops for your approval. Nothing is sent."
+license: proprietary
+template:
+  ask: "who your ideal customer is, in a sentence"
+  category: leads
+  cost_note: "measured: about 2.6 cents"
+  kind: team
+  lineage:
+    team: draft-lead-capture
+  needs:
+    - a human step
+    - web
+  proven_by_run: draft-lead-capture-234399404
+  status: verified
+settings:
+  budget_usd: 3.0
+start:
+  - find
+nodes:
+  approve:
+    approval:
+      note: "These are the leads and the drafts. Approve to finish, or decline and say what to change. Nothing is sent by this team: you send what you choose."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the list?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  find:
+    allow:
+      effects:
+        - network
+      mcp: []
+      panes: []
+      paths: []
+      skills: []
+    cap_usd: 0.1
+    label: Look for the people and companies
+    node: use_tool
+    outputs:
+      count: int
+      text: string
+    starts_model: true
+    timeout_s: null
+    tool:
+      args:
+        max: 8
+        query: "{ask}"
+      name: search
+      type: web
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  reach:
+    agent:
+      brief: "For each lead scored 3 or more write a first message under 90 words: one specific thing about them (from the results), one clear reason to talk, one easy question. No flattery, no false familiarity, no claim about them you cannot support. Nothing is sent by this team. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Draft the first message for each lead that stays
+      skills: []
+      title: Outreach writer
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  score:
+    agent:
+      brief: "The search results are in what the step before you found; the team's ask says who the ideal customer is. Do not fetch or browse anything yourself. List every candidate that appears in the results with: name, what they do (from the result only), a score from 0 to 5 for fit, and ONE reason that quotes the result. Drop the ones below 3 and say how many you dropped. Never invent a contact detail, a role or a company size: if it is not in the results, write 'unknown'. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: "Decide who is worth contacting, and why"
+      skills: []
+      title: Lead qualifier
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  sheet:
+    cap_usd: null
+    format: md
+    from: reach
+    label: null
+    name: leads
+    node: artifact
+    timeout_s: null
+    title: Leads and first messages
+  stop:
+    cap_usd: null
+    label: null
+    message: "The search did not answer: try again, or say the people you want in other words."
+    node: stop
+    timeout_s: null
+edges:
+  - from: find
+    port: out
+    to: score
+  - from: score
+    port: out
+    to: reach
+  - from: reach
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: sheet
+  - from: sheet
+    port: out
+    to: deliver
+  - from: find
+    port: failed
+    to: stop
+  - from: find
+    port: error
+    to: stop
+  - from: find
+    port: timeout
+    to: stop
+  - from: find
+    port: cap
+    to: stop
+hash: sha256:d0cb7b911233b403de81bb5648199e87d9131d0dec9cf687bfd5be959175bafb

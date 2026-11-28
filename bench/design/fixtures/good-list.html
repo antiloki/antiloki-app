@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>good-list (fixture: a clean orders list)</title>
+<!-- KNOWN GOOD: 8px scale, 3 font sizes (14/16/24), 2 weights, AA contrast incl. status pills, a toolbar whose controls share
+     a height and a centre line, rows on one grid, 40px controls with hover + focus states. -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#18181b;--muted:#52525b;--line:#d4d4d8;--bg:#fafafa;--panel:#ffffff;--accent:#7c3aed;--accent-dark:#6d28d9;--ok-bg:#dcfce7;--ok-ink:#14532d}
+body{font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;font-weight:400;color:var(--ink);background:var(--bg)}
+.page{max-width:960px;margin:0 auto;padding:48px 32px}
+h1{font-size:24px;line-height:32px;font-weight:600;margin-bottom:24px}
+.toolbar{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.toolbar input{flex:1;height:40px;padding:8px 16px;font-family:inherit;font-size:16px;line-height:24px;color:var(--ink);background:#ffffff;border:1px solid var(--line);border-radius:8px}
+.toolbar select{width:192px;height:40px;padding:8px 16px;font-family:inherit;font-size:16px;line-height:24px;color:var(--ink);background:#ffffff;border:1px solid var(--line);border-radius:8px}
+.toolbar input:hover,.toolbar select:hover{border-color:var(--muted)}
+.toolbar input:focus,.toolbar select:focus{outline:2px solid var(--accent);outline-offset:2px}
+.go{height:40px;padding:8px 24px;font-family:inherit;font-size:14px;line-height:24px;font-weight:600;color:#ffffff;background:var(--accent);border:1px solid var(--accent);border-radius:8px;cursor:pointer}
+.go:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+.go:focus-visible,.open:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;align-items:center;gap:16px;padding:16px 24px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.head{font-size:14px;line-height:24px;font-weight:600;color:var(--muted);background:var(--bg);border-radius:8px 8px 0 0}
+.cell{font-size:16px}
+.sub{font-size:14px;color:var(--muted)}
+.amount{font-weight:600;text-align:right}
+.pill{display:inline-block;justify-self:start;padding:0 8px;font-size:14px;line-height:24px;font-weight:600;color:var(--ok-ink);background:var(--ok-bg);border-radius:8px}
+.pill.idle{color:var(--ink);background:var(--bg);border:1px solid var(--line)}
+.open{display:inline-flex;align-items:center;min-height:40px;padding:8px 0;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none}
+.open:hover{text-decoration:underline;color:var(--accent-dark)}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Orders</h1>
+  <div class="toolbar">
+    <input type="text" value="" aria-label="Search orders">
+    <select aria-label="Sort orders"><option>Newest first</option><option>Oldest first</option><option>Amount</option></select>
+    <button class="go" type="button">Search</button>
+  </div>
+  <div class="list">
+    <div class="row head"><span>Customer</span><span>Status</span><span>Date</span><span class="amount">Amount</span></div>
+    <div class="row"><span class="cell">Ada Lovelace<br><a class="open" href="#o1">Open order</a></span><span class="pill">Shipped</span><span class="sub">12 Oct 2026</span><span class="cell amount">$82</span></div>
+    <div class="row"><span class="cell">Grace Hopper<br><a class="open" href="#o2">Open order</a></span><span class="pill idle">Packing</span><span class="sub">11 Oct 2026</span><span class="cell amount">$240</span></div>
+    <div class="row"><span class="cell">Alan Turing<br><a class="open" href="#o3">Open order</a></span><span class="pill">Shipped</span><span class="sub">09 Oct 2026</span><span class="cell amount">$96</span></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+[package]
+name = "antiloki-agent"
+version = "1.0.0"
+edition = "2021"
+description = "The sidecar a code-agent pane runs: `hook` (the PreToolUse scope gate + audit), `mcp` (the stdio MCP server) and `statusline` (usage always visible). One small binary, no Node — bundled next to the desktop app as a Tauri externalBin."
+
+# ONE binary, three subcommands: a single externalBin for the desktop bundle, one path for the bake
+# to write into .claude/settings.local.json, .codex/hooks.json and .antiloki/mcp.json.
+[[bin]]
+name = "antiloki-agent"
+path = "src/main.rs"
+
+# THE TERMINAL FRONT (operator 2026-10-26: "open the agent on the terminal with a single word"): `antiloki` on the user's PATH. The cargo bin is
+# `antiloki-chat` because the engine crate already owns the bin name `antiloki` (two bins of one name write to the same target path); the installer
+# (scripts/install-linux.sh) installs it as `antiloki`. A client of the serve, no engine of its own, no new dependency.
+[[bin]]
+name = "antiloki-chat"
+path = "src/chat.rs"
+
+[dependencies]
+# preserve_order: the hook's JSONL lines and the MCP replies keep the key order the TS wrote — the
+# pane's audit window and the tests read them positionally in places.
+serde_json = { version = "1", features = ["preserve_order"] }
+# sha256 of a written file (the audit's proof of what landed) — same as node:crypto createHash
+sha2 = "0.10"
+hex = "0.4"
+# the glob → regex of the scope gate, the shell-write heuristics, the JSON-lines parsers
+regex = "1"
+# the MCP server's one HTTP call per tool, to the loopback server — blocking is right here (one
+# thread per request), and ureq is already in the workspace lock.
+ureq = { version = "2", default-features = false, features = ["json"] }
+# RFC 0007: the terminal host lives in its own crate so the serve can talk to it too; this binary runs it (`pty-host`, `pty`).
+antiloki-ptyhost = { path = "../ptyhost" }
+
+[dev-dependencies]
+# the host's tests parse a reattach snapshot with the same engine the host uses and compare screens
+vt100 = "0.18"
+# the end-to-end test asks the serve what it holds
+ureq = { version = "2", default-features = false }

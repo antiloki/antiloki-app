@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "antiloki://schemas/card-body.schema.json",
+  "title": "antiloki card body_json",
+  "description": "Canonical shape for cards.body_json. See docs/card-schema.md for narrative. Enforced at write time by law-hook-card-body-schema.",
+  "type": "object",
+  "required": ["kind", "size"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["epic", "feat", "fix", "prevent", "docs", "decision", "gap", "phase"],
+      "description": "Role/intent of this card. Independent of size."
+    },
+    "size": {
+      "type": "string",
+      "enum": ["L", "M", "S"],
+      "description": "Scope tier. Hierarchy: L→M→S via parent_slug. L parents are NULL; M parents are L; S parents are M."
+    },
+
+    "motivation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "PRODUCT-SHAPE (canonical): what's wrong/missing/wanted and why it matters. The pain or goal, in product terms. The only non-list body field. Replaces 'problem'/'why'."
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "PRODUCT-SHAPE: observable 'done' conditions in product terms (a user can X, Y stops happening). NOT test commands. Replaces 'outcome'/'acceptance'."
+    },
+    "context": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "PRODUCT-SHAPE: background the AI/contract needs — how it works today, constraints, links, prior decisions. One item per point."
+    },
+    "out_of_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "PRODUCT-SHAPE: explicit out-of-bounds — 'not this card / don't touch X'. Replaces 'non_goals'."
+    },
+    "reproduction": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "PRODUCT-SHAPE (kind=fix only): steps to reproduce + expected vs actual. One step/observation per item."
+    },
+
+    "problem": {
+      "type": "string",
+      "minLength": 1,
+      "description": "LEGACY — superseded by 'motivation'. Kept allowed during the reshape transition; reshape converts problem→motivation."
+    },
+    "outcome": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "LEGACY — superseded by 'acceptance_criteria'."
+    },
+    "non_goals": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "LEGACY — superseded by 'out_of_scope'."
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1,
+      "description": "LEGACY — superseded by 'motivation'. Kept allowed during the reshape transition; reshape converts why→motivation."
+    },
+
+    "scope":          { "type": "array", "items": { "type": "string" } },
+    "deliverables":   { "type": "array", "items": { "type": "string" } },
+    "acceptance":     { "type": "array", "items": { "type": "string" } },
+    "pre_conditions": { "type": "array", "items": { "type": "string" } },
+    "risks":          { "type": "array", "items": { "type": "string" } },
+    "files_touched":  { "type": "array", "items": { "type": "string" } },
+
+    "verify": { "type": "string", "description": "Markdown — recipe/command to verify done." },
+    "notes":  { "type": "string", "description": "Catch-all markdown for context not covered by structured fields." },
+
+    "diagnosis":               { "type": "string", "description": "Only meaningful when kind=fix. What went wrong." },
+    "trigger":                 { "type": "string", "description": "Only meaningful when kind=prevent. What would re-cause this." },
+    "mitigation":              { "type": "string", "description": "Only meaningful when kind=prevent. How it's now blocked." },
+    "alternatives_considered": { "type": "array", "items": { "type": "string" }, "description": "Only meaningful when kind=decision." }
+  },
+
+  "$defs": {
+    "forbiddenKeys": {
+      "description": "These keys MUST NOT appear; they're either column duplicates or violate substrate structure. The lint action checks this list explicitly.",
+      "keys": [
+        "parent", "epic", "parent_epic",
+        "priority", "risk", "complexity", "score",
+        "subtasks", "children", "children_planned", "child_count",
+        "total_subtasks_in_children", "subtask_count",
+        "tests",
+        "commit", "commits",
+        "summary",
+        "files_touched_proposed",
+        "what",
+        "approach", "strategy", "verification"
+      ],
+      "note": "'motivation' was removed from this list — it is now the canonical PRODUCT-SHAPE field (was previously a why-alias)."
+    },
+    "renameRules": {
+      "description": "Mapping the normalizer uses to fix rule-fixable violations.",
+      "rules": {
+        "problem": "motivation",
+        "why": "motivation",
+        "summary": "motivation",
+        "outcome": "acceptance_criteria",
+        "non_goals": "out_of_scope",
+        "files_touched_proposed": "files_touched",
+        "what": "deliverables",
+        "tests": "acceptance",
+        "approach": "notes",
+        "strategy": "notes",
+        "verification": "verify"
+      }
+    }
+  }
+}

@@ -1,0 +1,181 @@
+# antiloki branch file (strict YAML subset, see RFC 0015). Edit it, then check it: the hash says whether it was changed by hand.
+schema: antiloki-branch/1
+name: marketing-campaign
+version: "1.0.0"
+description: "Turns a product page into a campaign kit (hero, email, posts, ads), checks every claim against the page, and stops for your approval. You give it the page's address."
+license: proprietary
+template:
+  ask: "the product page's address, and a goal if you have one"
+  category: marketing
+  cost_note: "measured: about 1.7 cents"
+  kind: team
+  lineage:
+    team: draft-marketing-campaign
+  needs:
+    - a human step
+    - web
+  proven_by_run: draft-marketing-campaign-234283912
+  status: verified
+settings:
+  budget_usd: 4.0
+start:
+  - page
+nodes:
+  approve:
+    approval:
+      note: "These are the campaign pieces and the claims check. Approve to finish, or decline and say what to change. Nothing is published or sent by this team."
+      risk: low
+    cap_usd: null
+    gate: review
+    label: "Is this the copy?"
+    node: human
+    on_timeout: stay
+    timeout_s: null
+  both:
+    cap_usd: null
+    label: The page and the copy
+    node: join
+    policy: all
+    quorum: null
+    timeout_s: null
+  check:
+    agent:
+      brief: "You never saw the strategy's reasoning, only the page text (from the page step) and the copy. For EVERY factual claim in the copy (numbers, comparisons, guarantees, names) write: the claim, the sentence of the page that supports it (quote it) or 'NOT ON THE PAGE'. Then list what must be removed or softened. End with PASS (nothing unsupported) or FIX. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Check every claim against the page
+      skills: []
+      title: Claims checker
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  copy:
+    agent:
+      brief: "From the strategy write: one landing-page hero (headline, subline, call to action), one email (subject, body under 120 words), three social posts for different angles, and two ad variants (headline under 40 characters). Use only facts present on the page. Label every piece with the angle it serves. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Write the campaign
+      skills: []
+      title: Copywriter
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+  deliver:
+    cap_usd: null
+    label: null
+    node: deliver
+    timeout_s: null
+  kit:
+    cap_usd: null
+    format: md
+    from: copy
+    label: null
+    name: campaign
+    node: artifact
+    timeout_s: null
+    title: Campaign kit
+  leader:
+    cap_usd: null
+    label: null
+    node: leader
+    timeout_s: null
+  page:
+    allow:
+      effects:
+        - network
+      mcp: []
+      panes: []
+      paths: []
+      skills: []
+    cap_usd: null
+    label: Read the product page
+    node: use_tool
+    outputs:
+      text: string
+      title: string
+    starts_model: false
+    timeout_s: null
+    tool:
+      args:
+        url: "{ask}"
+      name: fetch
+      type: web
+  stop:
+    cap_usd: null
+    label: null
+    message: "The page could not be read: check the address, and that it is public."
+    node: stop
+    timeout_s: null
+  strategy:
+    agent:
+      brief: "The product page text is in what the step before you found; the team's ask may add a goal or a channel. Do not fetch, browse or search anything yourself: if the text is empty or unreadable say so and stop. Write: who this is for (one sentence, from the page only), the three strongest angles (each: the promise, the proof the page itself gives, the objection it must answer), and what NOT to claim because the page does not support it. No invented numbers, customers or awards. Reply with the finished text only. You have no tools and no files in this step: never mention a missing permission, never promise to write or fetch anything, and never ask a question; if something you need is missing from what you were given, say what is missing in one line and still give your best answer from what you have."
+      context: []
+      effects: []
+      mcp: []
+      responsibility: Decide who it is for and what to say
+      skills: []
+      title: Marketing strategist
+    cap_usd: null
+    fresh_context: null
+    label: null
+    model: null
+    node: role
+    owns: []
+    parallel: null
+    readonly: true
+    role: agent
+    tier: null
+    timeout_s: null
+edges:
+  - from: page
+    port: out
+    to: strategy
+  - from: strategy
+    port: out
+    to: copy
+  - from: copy
+    port: out
+    to: both
+  - from: page
+    port: out
+    to: both
+  - from: both
+    port: out
+    to: check
+  - from: check
+    port: out
+    to: approve
+  - from: approve
+    port: approved
+    to: kit
+  - from: kit
+    port: out
+    to: deliver
+  - from: page
+    port: failed
+    to: stop
+  - from: page
+    port: error
+    to: stop
+  - from: page
+    port: timeout
+    to: stop
+hash: sha256:d21efcb676702ff5ac7cf67b3f154c38b8b8f3b06411d186d0f0b7323f650f01

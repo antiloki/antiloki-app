@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bad-contrast-defaults (fixture: pale text, browser-default controls, 20px targets)</title>
+<!-- KNOWN BAD: body copy is #a3a3a3 on white (2.5:1), the form controls are the bare browser defaults (13.33px UA font, grey
+     bevel button, 1px #767676 select/input) and two styled icon buttons are 20x20. Layout is a single clean left-aligned column
+     of block rows and nothing clips, so alignment and overflow must still pass. -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:#a3a3a3;background:#ffffff;padding:32px}
+h1{margin-bottom:8px;font-size:24px;line-height:32px;font-weight:600;color:#a3a3a3}
+p{margin-bottom:24px;max-width:480px}
+.row{margin-bottom:16px}
+.x{width:20px;height:20px;font-family:inherit;font-size:14px;line-height:20px;color:#1f2937;background:#e5e7eb;border:0;border-radius:4px;cursor:pointer}
+</style>
+</head>
+<body>
+<h1>Delivery details</h1>
+<p>Tell us where the parcel should go. We will email a tracking link as soon as it leaves the warehouse.</p>
+<div class="row"><input type="text" value="12 Analytical Way"></div>
+<div class="row"><select><option>Standard delivery</option><option>Express delivery</option></select></div>
+<div class="row"><button type="button">Save address</button></div>
+<div class="row"><input type="submit" value="Place order"></div>
+<div class="row"><button class="x" type="button" aria-label="remove">x</button> <button class="x" type="button" aria-label="edit">e</button></div>
+</body>
+</html>

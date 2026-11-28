@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+"""A stand-in for `ssh` and `scp` in the journeys: the "other machine" is this one, under another HOME ($FAKE_REMOTE_HOME). `ssh target cmd` runs cmd there; `ssh -N -L l:127.0.0.1:r target` forwards a local
+port to a local port, until killed; `scp` copies into that HOME. A target that contains `badhost` fails the way ssh does."""
+import os, sys, subprocess, socket, threading, shutil
+
+name = os.path.basename(sys.argv[0]); args = sys.argv[1:]
+home = os.environ["FAKE_REMOTE_HOME"]
+
+def fail_for(t):
+    if "badhost" in t: sys.stderr.write("ssh: Could not resolve hostname badhost: Name or service not known\n"); sys.exit(255)
+
+if name == "scp":
+    rec = False; paths = []; i = 0
+    while i < len(args):
+        a = args[i]
+        if a in ("-o", "-P"): i += 2; continue
+        if a == "-r": rec = True; i += 1; continue
+        paths.append(a); i += 1
+    src, dst = paths[0], paths[1]; tgt, rel = dst.split(":", 1); fail_for(tgt)
+    dest = os.path.join(home, rel)
+    if rec:
+        os.makedirs(dest, exist_ok=True)
+        s = src[:-2] if src.endswith("/.") else src
+        for n in os.listdir(s):
+            a_, b_ = os.path.join(s, n), os.path.join(dest, n)
+            shutil.copytree(a_, b_, dirs_exist_ok=True) if os.path.isdir(a_) else shutil.copy2(a_, b_)
+    else:
+        os.makedirs(os.path.dirname(dest), exist_ok=True); shutil.copy2(src, dest)
+    sys.exit(0)
+
+L = None; N = False; target = None; cmd = None; i = 0
+while i < len(args):
+    a = args[i]
+    if a in ("-o", "-p"): i += 2; continue
+    if a == "-N": N = True; i += 1; continue
+    if a == "-L": L = args[i + 1]; i += 2; continue
+    target = a; cmd = " ".join(args[i + 1:]) if i + 1 < len(args) else None; break
+if target is None or target.startswith("-"): sys.exit(255)
+fail_for(target)
+
+if N and L:
+    lport, _, rport = L.split(":")[0], L.split(":")[1], int(L.split(":")[2])
+    srv = socket.socket(); srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1); srv.bind(("127.0.0.1", int(lport))); srv.listen(32)
+    def pipe(a, b):
+        try:
+            while True:
+                d = a.recv(65536)
+                if not d: break
+                b.sendall(d)
+        except Exception: pass
+        for s_ in (a, b):
+            try: s_.close()
+            except Exception: pass
+    while True:
+        c, _ = srv.accept()
+        try: r = socket.create_connection(("127.0.0.1", rport), timeout=3)
+        except Exception: c.close(); continue
+        threading.Thread(target=pipe, args=(c, r), daemon=True).start(); threading.Thread(target=pipe, args=(r, c), daemon=True).start()
+
+env = {k: v for k, v in os.environ.items() if not k.startswith("ANTILOKI_")}; env["HOME"] = home
+p = subprocess.run(["sh", "-c", cmd or "true"], env=env, capture_output=True, text=True)
+sys.stdout.write(p.stdout); sys.stderr.write(p.stderr); sys.exit(p.returncode)

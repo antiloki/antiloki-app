@@ -1,0 +1,2669 @@
+[
+{
+"gauge": "screen",
+"input": "In src/checkout.ts fix the rounding bug",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "update the tests in tests/cart.test.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "refactor src/utils/money.ts to use Intl",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "make the header in components/Header.tsx sticky",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "change styles/main.css to use the new palette",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "corrija o bug em src/checkout.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "actualiza docs/guia.md con los nuevos pasos",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "corrige le calcul dans lib/prix.js",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "behebe den Fehler in server/api.py",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted missing path"
+},
+{
+"gauge": "screen",
+"input": "do it the same way as before",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "fix it like before",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "do it again",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "add the button like that one",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "hazlo como la vez anterior",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "faça do mesmo jeito de antes",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "refais-le comme avant",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "mach es wie beim letzten Mal",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "planted dangling reference"
+},
+{
+"gauge": "screen",
+"input": "fix the rounding bug in src/products.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "path exists"
+},
+{
+"gauge": "screen",
+"input": "add filters",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "no path"
+},
+{
+"gauge": "screen",
+"input": "create src/hooks/useCart.ts with a cart hook",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "asks to create"
+},
+{
+"gauge": "screen",
+"input": "crie src/hooks/useCart.ts com um hook de carrinho",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "asks to create (pt)"
+},
+{
+"gauge": "screen",
+"input": "crea src/hooks/useCart.ts con un hook de carrito",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "asks to create (es)"
+},
+{
+"gauge": "screen",
+"input": "scaffold a new page at src/pages/About.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "asks to create"
+},
+{
+"gauge": "screen",
+"input": "set the threshold to 0.5",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "decimal"
+},
+{
+"gauge": "screen",
+"input": "use and/or logic in the filter",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "slash phrase"
+},
+{
+"gauge": "screen",
+"input": "see https://example.com/docs/page.html for the design",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "url"
+},
+{
+"gauge": "screen",
+"input": "handle input/output errors in src/products.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "slash phrase + real path"
+},
+{
+"gauge": "screen",
+"input": "e.g. use a Set for the ids",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "abbreviation"
+},
+{
+"gauge": "screen",
+"input": "bump react to 18.3.1",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "version"
+},
+{
+"gauge": "screen",
+"input": "update package.json and README.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "both exist"
+},
+{
+"gauge": "screen",
+"input": "explique o carrinho e/ou o checkout",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "slash phrase pt"
+},
+{
+"gauge": "screen",
+"input": "the same way as src/products.ts does it",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "dangling phrase but a real referent"
+},
+{
+"gauge": "screen",
+"input": "add a dark mode",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "no path"
+},
+{
+"gauge": "screen",
+"input": "adicione um filtro em src/components/Cart.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "path exists (pt)"
+},
+{
+"gauge": "screen",
+"input": "rename src/products.ts to src/catalog.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "rename target cannot exist yet"
+},
+{
+"gauge": "screen",
+"input": "move src/App.tsx to src/app/App.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "move target cannot exist yet"
+},
+{
+"gauge": "screen",
+"input": "renomeie src/products.ts para src/catalogo.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "rename target (pt)"
+},
+{
+"gauge": "screen",
+"input": "write a new file src/utils/format.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "asks to create"
+},
+{
+"gauge": "screen",
+"input": "what does src/products.ts export?",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "question about a real file"
+},
+{
+"gauge": "screen",
+"input": "split 1/5 of the list into a second page",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "fraction"
+},
+{
+"gauge": "retry",
+"input": "Not logged in · Please run /login",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "Invalid API key · Please run /login",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "Error: 401 Unauthorized",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "HTTP 402 Payment Required",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "Your credit balance is too low to access the Anthropic API",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "Claude AI usage limit reached|1759200000",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "spawn claude ENOENT",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "bash: cursor-agent: command not found",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "Error: model 'gpt-9' not found",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "You've hit your usage limit. Upgrade to Pro to continue",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "not signed in — run `codex login`",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "authentication required. Run `agy auth login`",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "prompt is too long: 250000 tokens > 200000 maximum",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "insufficient_quota: You exceeded your current quota",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "No such file or directory (os error 2) while spawning `grok`",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "permission denied (publickey)",
+"expect": "stop",
+"note": "permanent: a second identical call cannot succeed"
+},
+{
+"gauge": "retry",
+"input": "timed out after 240 s",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "the serve restarted",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "429 Too Many Requests",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "API Error: 529 overloaded_error",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "Error: read ECONNRESET",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "socket hang up",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "connect ETIMEDOUT 104.18.0.1:443",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "503 Service Unavailable",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "rate_limit_error: Number of requests has exceeded your rate limit",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "The model returned nothing",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "stream ended unexpectedly",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "502 Bad Gateway",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "connection closed before message completed",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "RESOURCE_EXHAUSTED: per-minute quota, retry in 20s",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "UNAVAILABLE: The model is overloaded. Please try again later.",
+"expect": "again",
+"note": "transient"
+},
+{
+"gauge": "retry",
+"input": "Unexpected token < in JSON at position 0",
+"expect": "abstain",
+"note": "nobody has classified it"
+},
+{
+"gauge": "retry",
+"input": "worker exited with status 1",
+"expect": "abstain",
+"note": "unclassified"
+},
+{
+"gauge": "retry",
+"input": "TypeError: x is not a function",
+"expect": "abstain",
+"note": "a code error"
+},
+{
+"gauge": "retry",
+"input": "the plan had a dependency cycle",
+"expect": "abstain",
+"note": "unclassified"
+},
+{
+"gauge": "retry",
+"input": "SyntaxError at line 401 of parser.js",
+"expect": "abstain",
+"note": "a stack trace with the digits 401 is not a login failure"
+},
+{
+"gauge": "retry",
+"input": "assertion failed: expected 403 items, got 12",
+"expect": "abstain",
+"note": "a count, not HTTP 403"
+},
+{
+"gauge": "retry",
+"input": "ran 500 iterations, 3 failed",
+"expect": "abstain",
+"note": "a count, not HTTP 500"
+},
+{
+"gauge": "seat",
+"input": "Not logged in · Please run /login",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "Invalid API key",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "HTTP 402 Payment Required",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "bash: claude: command not found",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "Your credit balance is too low",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "not signed in — run `codex login`",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "authentication required. Run `agy auth login`",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "spawn cursor-agent ENOENT",
+"expect": true,
+"note": "follows the seat to every model"
+},
+{
+"gauge": "seat",
+"input": "unknown model 'x'",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "Claude usage limit reached for opus",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "403 forbidden for this model",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "timed out after 240 s",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "429 Too Many Requests",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "the model returned nothing",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "seat",
+"input": "assertion failed: expected 401 rows",
+"expect": false,
+"note": "not seat-level"
+},
+{
+"gauge": "delegated",
+"input": "what do you suggest?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "what would you improve next?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "surprise me",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "you choose",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "your call",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "pick something useful to do",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "any ideas for the homepage?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "o que você sugere?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "qué sugieres",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "que me conseilles-tu ?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "was schlägst du vor?",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "what should we work on next",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "me dê sugestões de melhoria",
+"fire": true,
+"note": "the machine's judgement is the deliverable"
+},
+{
+"gauge": "delegated",
+"input": "add filters",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "explain what next.js does",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "fix the suggestions dropdown",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "add a your-opinion field to the form",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "list the ideas table columns",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "what does the ideas table store?",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "adicione um campo de sugestões ao formulário",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "o que faz a função sugerir()?",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "delegated",
+"input": "remove the surprise-me button",
+"fire": false,
+"note": "a concrete ask that shares words"
+},
+{
+"gauge": "screen",
+"input": "fix the null check in src/api/client.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "atualize o teste em test/cart.spec.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "edita el estilo de public/theme.css",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "Ändere die Datei config/app.yaml",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "mets à jour docs/api.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "apply the same fix as last time",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "comme la fois d'avant",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "do the same as before",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "fix the typo in README.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "add a loading state to src/components/Cart.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "write a new module src/lib/money.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "gere um novo arquivo src/lib/dinheiro.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "copy src/products.ts to src/products.backup.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "duplicate src/App.tsx as src/AppV2.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "switch to 3/4 width on mobile",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "use the v2/v3 api",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "bump lodash to 4.17.21",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "read the notes in https://x.dev/a/b.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: 401 Unauthorized: token expired",
+"expect": "stop",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "stream error: read ECONNABORTED",
+"expect": "again",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "504 Gateway Timeout",
+"expect": "again",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: You must be logged in to use this command",
+"expect": "stop",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "fatal: 12 files changed, 500 insertions",
+"expect": "abstain",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "API Error: 500 Internal Server Error",
+"expect": "again",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Please sign in to continue",
+"expect": "stop",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: EACCES: permission denied, open '/etc/x'",
+"expect": "abstain",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "HTTP 403 Forbidden",
+"expect": "stop",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "the assistant hit a rate limit, retry in 30s",
+"expect": "again",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "cursor-agent: not logged in",
+"expect": "stop",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "worker crashed: out of memory",
+"expect": "abstain",
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Please sign in to continue",
+"expect": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "cursor-agent: not logged in",
+"expect": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "HTTP 403 Forbidden",
+"expect": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Error: 401 Unauthorized",
+"expect": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "504 Gateway Timeout",
+"expect": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "error: unknown flag --foo",
+"expect": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "what would you build next?",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "suggest something for the landing page",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "you pick",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "what's your take on the architecture?",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "dime qué mejorarías",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "decide for me",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "tell me what to do next",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "what do you recommend?",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "add a recommendation card to the home page",
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "show my suggestions folder",
+"fire": false,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "qual é a sua sugestão?",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "o que você recomenda?",
+"fire": true,
+"note": "held-out round 1, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "fix the typo in components/Footer.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "atualize o texto em pages/home.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "cambia el color en theme/colors.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "corrige le bug dans utils/format.js",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "aktualisiere die Datei docs/setup.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "do the same thing you did yesterday",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "refaça igual à última vez",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "hazlo igual que antes",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "fix the typo in README.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "add tests for src/products.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "delete src/components/Cart.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "make a copy of package.json as package.backup.json",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "explain src/App.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "use the new API v2/v3",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "update to node 20.11.0",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "corrija o bug em src/App.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "crie a página pages/sobre.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "mueve package.json a config/package.json",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: Invalid API key provided",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "HTTP 403 Forbidden: subscription expired",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Please run `claude login` to continue",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "codex: authentication failed - sign in again",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "You have run out of credits",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "billing hard limit reached",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Model claude-x is not available on your plan",
+"expect": "stop",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Request timed out",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "HTTP 502 Bad Gateway from upstream",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "503 Service Unavailable",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "upstream connect error or disconnect/reset before headers",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Rate limit reached for requests, retry after 20s",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "overloaded_error: Overloaded",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "The operation was aborted due to timeout",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "fetch failed",
+"expect": "again",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Cannot find module './x'",
+"expect": "abstain",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Unexpected end of JSON input",
+"expect": "abstain",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "task 3 of 5 failed",
+"expect": "abstain",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "exit status 2",
+"expect": "abstain",
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "You have run out of credits",
+"expect": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "codex: authentication failed - sign in again",
+"expect": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Please run `claude login` to continue",
+"expect": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Model claude-x is not available on your plan",
+"expect": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Request timed out",
+"expect": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "HTTP 429 Too Many Requests",
+"expect": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "you tell me what's best",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "any thoughts on what to improve?",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "sugira algo para melhorar",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "dime tú qué hacer",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "was meinst du, was fehlt noch?",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "propose something useful",
+"fire": true,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "why is the suggestions endpoint slow?",
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "fix my recommendations widget",
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "implement the suggest feature",
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "add a your-call button",
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "list the ideas in the backlog file",
+"fire": false,
+"note": "held-out round 2, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "swap the icons in assets/icons/cart.svg for the new set",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "fix the padding in styles/cart.scss",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "actualiza la config en config/app.json",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "ändere die Farbe in css/theme.css",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "corrige o erro em lib/format.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "do what we did before but for the footer",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "same again please",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "repeat what you did on the last task",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "explain how src/products.ts works",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "what does package.json say about scripts?",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "add a test next to src/products.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "refactor src/components/Cart.tsx to use hooks",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "read README.md and summarize",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "install lodash 4.17.21",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "optimize images at 800x600",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "the ratio is 16/9 in the hero",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "create docs/guide.md",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "gere src/utils/ids.ts",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "copy src/App.tsx to src/App.old.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "screen",
+"input": "remove src/components/Cart.tsx",
+"exists": [
+"src",
+"src/App.tsx",
+"src/products.ts",
+"src/components",
+"src/components/Cart.tsx",
+"package.json",
+"README.md"
+],
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: OAuth token has expired. Please run /login",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "API Error: 401 {\"type\":\"authentication_error\"}",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Your account has been suspended",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: Insufficient credits",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "HTTP 402",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "The model `gpt-9` does not exist",
+"expect": "stop",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "read ECONNRESET",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "429: rate_limit_exceeded",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Service temporarily unavailable",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "context deadline exceeded",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "The request timed out",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: 529 overloaded",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "socket closed unexpectedly",
+"expect": "again",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "Error: Cannot read properties of undefined",
+"expect": "abstain",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "npm ERR! code ERESOLVE",
+"expect": "abstain",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "test suite failed: 3 failed",
+"expect": "abstain",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "merge conflict in src/App.tsx",
+"expect": "abstain",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "retry",
+"input": "exit code 1",
+"expect": "abstain",
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Error: OAuth token has expired. Please run /login",
+"expect": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "Error: Insufficient credits",
+"expect": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "cursor-agent: Not logged in",
+"expect": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "API Error: 401 authentication_error",
+"expect": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "429: rate_limit_exceeded",
+"expect": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "The model gpt-9 does not exist",
+"expect": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "seat",
+"input": "context deadline exceeded",
+"expect": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "what would you do in my place?",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "surprise me with something useful",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "tell me what to build",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "qual sua sugestão de próximo passo?",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "¿qué me recomiendas?",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "was sollten wir als Nächstes tun?",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "run with whatever you think is best",
+"fire": true,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "the recommendations page crashes on load",
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "fix the what-to-do list widget",
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "explain what the suggest() function returns",
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "rename recommend to advise",
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+},
+{
+"gauge": "delegated",
+"input": "add a surprise-me button to the header",
+"fire": false,
+"note": "held-out round 3, then fixed for (now a training case)",
+"seen": true
+}
+]

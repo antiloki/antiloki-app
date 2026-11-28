@@ -1,0 +1,37 @@
+name: ci
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  rust:
+    name: serve and agent tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: serve lib tests
+        run: cargo test -p antiloki-serve --lib -j 2
+      - name: agent tests
+        run: cargo test -p antiloki-agent -j 2
+
+  frontend:
+    name: front end typecheck and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: antiloki/antiloki-ui
+          path: antiloki-ui
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: antiloki-ui
+      - run: npm run typecheck
+        working-directory: antiloki-ui
+      - run: npm test
+        working-directory: antiloki-ui

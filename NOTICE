@@ -1,0 +1,6 @@
+antiloki
+Copyright 2026 The antiloki authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+It includes third-party software under their own licences; see Cargo.lock and
+the front end's package-lock.json for the dependency list.

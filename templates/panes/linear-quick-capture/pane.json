@@ -1,0 +1,10 @@
+{
+  "schema": "antiloki-pane/1",
+  "id": "linear-quick-capture",
+  "title": "Quick capture to Linear",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "notes": "A small form that adds an issue to the team you pick. It reads your teams and, when you press Add, asks you first (every write asks) and then calls save_issue.",
+  "made_by": "antiloki (example)",
+  "apps": [ { "app": "linear", "read": ["list_teams"], "write": ["save_issue"] } ]
+}
